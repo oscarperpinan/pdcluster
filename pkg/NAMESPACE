@@ -1,0 +1,53 @@
+##import(wmtsa) ##Does not have a NAMESPACE
+import(cluster)
+import(car)
+
+import(hexbin)
+import(lattice)
+import(latticeExtra)
+import(grid)
+
+importFrom(mgcv, in.out)##choosePoints()
+#import(classInt)
+#import(alphahull)
+##import(party)
+
+import(methods)
+
+export(
+       no0,
+       wavVarPD,
+       nZeroCross,
+       prony,
+##       outlier,
+       analysis,
+       plot.prony,
+       compProny,
+       choosePoints,
+       hankel,
+       df2PD#,
+       ## panel.ahull,
+       ## panel.ashape
+       ## intervals
+       )
+
+exportMethods(filterPD,
+              isFiltered,
+              transformPD,
+              isTransformed,
+              claraPD,
+              xyplot,
+              histogram,
+              densityplot,
+              hexbinplot,
+              splom,
+              identifyPD,
+              as.data.frame,
+              PD2Long,
+              
+              show
+              
+             )
+
+exportClasses(PD, PDCluster)
+  

@@ -1,0 +1,20 @@
+citHeader("To cite package 'pdCluster' in publications use:")
+     
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("pdCluster")
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+vers <- paste("R package version", meta$Version)
+     
+citEntry(entry="Manual",
+              title = "pdCluster: Partial Discharges Clustering.",
+              author = personList(as.person("Oscar Perpinan"), 
+as.person('Miguel Angel Sanchez-Uran')),
+              year = year,
+              note = vers,
+              textVersion =
+              paste("Oscar Perpinan, M.A. Sanchez-Uran (", 
+                    year,
+                    "). pdCluster: Partial Discharges Clustering. ",
+                    vers, ".", sep=""))
+
+
+

@@ -1,0 +1,13 @@
+Package: pdCluster
+Type: Package
+Title: Partial Discharge Clustering
+Version: 0.10
+Date: 2011-05-16
+Encoding: UTF-8
+Author: Oscar Perpiñán Lamigueiro and Miguel Angel Sánchez-Urán
+Maintainer: Oscar Perpiñán Lamigueiro <oscar.perpinan@upm.es>
+Description: 
+License: GPL-3
+LazyLoad: yes
+LazyData: yes
+Depends: methods, wmtsa, cluster, car, hexbin, lattice, latticeExtra, grid, mgcv
