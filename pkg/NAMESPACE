@@ -23,6 +23,7 @@ export(
        analysis,
        plot.prony,
        compProny,
+       label.densityplot,
        choosePoints,
        hankel,
        df2PD#,

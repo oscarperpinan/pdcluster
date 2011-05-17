@@ -1,5 +1,6 @@
 \name{transformPD-methods}
 \docType{methods}
+\alias{transformPD}
 \alias{transformPD-methods}
 \alias{transformPD,PD-method}
 \title{Methods for Function \code{transformPD} }

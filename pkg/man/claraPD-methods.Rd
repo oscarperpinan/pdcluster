@@ -1,5 +1,6 @@
 \name{claraPD-methods}
 \docType{methods}
+\alias{claraPD}
 \alias{claraPD-methods}
 \alias{claraPD,PD-method}
 \title{Clustering of Partial Discharge signals}
@@ -9,6 +10,7 @@
             seed=421)
 }
 \arguments{
+  \item{object}{A \code{PD} or \code{PDCluster} object.}
   \item{nSims}{numeric, number of \code{\link{clara}} executions.}
     \item{nCl}{numeric, number of clusters.}
     \item{metric}{character, metric for the \code{\link{clara}}

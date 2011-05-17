@@ -1,5 +1,6 @@
 \name{PD2Long-methods}
 \docType{methods}
+\alias{PD2Long}
 \alias{PD2Long-methods}
 \alias{PD2Long,PD-method}
 \alias{PD2Long,PDCluster-method}

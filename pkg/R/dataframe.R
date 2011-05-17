@@ -18,7 +18,7 @@ df2PD <- function(x, select=c('RefMax', 'W1', 'W2', 'W3', 'W4', 'range', 'N', 'e
   
 }
 ## AS.DATA.FRAME
-setGeneric('as.data.frame', function(x, ...){standardGeneric('as.data.frame')})
+setGeneric('as.data.frame')#, function(x, ...){standardGeneric('as.data.frame')})
 setMethod('as.data.frame', signature=(x='PD'),
           definition=function(x, ...){
             df <- x@data

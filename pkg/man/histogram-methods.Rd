@@ -8,8 +8,8 @@
 Methods for function \code{histogram} in package \pkg{pdR}
 }
 \usage{
-\S4method{histogram}{PD}(x, vars)
-\S4method{histogram}{PD}(x, vars, clusters)
+\S4method{histogram}{PD,missing}(x, vars)
+\S4method{histogram}{PDCluster,missing}(x, vars, clusters)
 }
 \arguments{
   \item{x}{A \code{PD} or \code{PDCluster} object}
@@ -22,8 +22,8 @@ Methods for function \code{histogram} in package \pkg{pdR}
 }
 \references{
 }
-\seealso{\code{\link{lattice::histogram}}, \code{\link{useOuterStrips}},
-  \code{\link{combineLimits}}, \code{\link{PD2Long}}
+\seealso{\code{\link{histogram}}, \code{\link{useOuterStrips}},
+  \code{\link{combineLimits}}, \code{\link{PD2Long-methods}}
 }
 \examples{
 }

@@ -1,5 +1,6 @@
 \name{identifyPD-methods}
 \docType{methods}
+\alias{identifyPD}
 \alias{identifyPD-methods}
 \alias{identifyPD,PD-method}
 \title{Methods for Function \code{identifyPD} }
@@ -11,6 +12,7 @@ Methods for function \code{identifyPD}
 \S4method{identifyPD}{PD}(object, label='energy', column=1, row=1, pch=13, cex=0.6, col='darkgreen',...)
 }
 \arguments{
+    \item{object}{A \code{PD} or \code{PDCluster} object.}
   \item{label}{character, feature to be used for identification.}
   \item{column}{numeric, see \code{\link{trellis.focus}}}
   \item{row}{numeric, see \code{\link{trellis.focus}}}

@@ -1,3 +1,4 @@
+setGeneric('histogram')
 setMethod('histogram',
           signature=c(x='PD', data='missing'),
           definition = function(x, vars){

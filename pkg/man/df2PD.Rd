@@ -2,7 +2,7 @@
 \alias{df2PD}
 
 \title{Conversion from \code{data.frame} to a  \code{\linkS4class{PD}} object.}
-\description{
+\description{Conversion from \code{data.frame} to a  \code{\linkS4class{PD}} object.
 }
 \usage{
 df2PD(x,

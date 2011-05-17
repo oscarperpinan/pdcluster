@@ -6,14 +6,14 @@
 \description{
 Methods for function \code{splom} in package \pkg{pdR}
 }
-\usage{\S4method{splom}{PD}(x, ...)}
+\usage{\S4method{splom}{PD,missing}(x, data,\dots)}
 \arguments{
   \item{x}{A \code{\linkS4class{PD}} object}
+  \item{data}{Not used.}
+  \item{\dots}{Additional arguments for \code{splom}}
   }
 \section{Methods}{
 \describe{
-
-
 \item{\code{signature(x = "PD", data = "missing")}}{See
   \code{\link{splom}}. \code{\link{panel.hexbinplot}} is used for the
   upper panels and \code{\link{panel.loess}} for the lower panels. The

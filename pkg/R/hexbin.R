@@ -1,3 +1,4 @@
+setGeneric('hexbinplot')
 setMethod('hexbinplot',
           signature=c(x='PD', data='missing'),
           definition=function(x, 

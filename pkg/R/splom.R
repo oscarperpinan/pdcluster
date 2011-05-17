@@ -1,3 +1,4 @@
+setGeneric('splom')
 setMethod('splom',
           signature=c(x='PD', data='missing'),
           definition=function(x, ...){

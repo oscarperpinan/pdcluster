@@ -6,8 +6,8 @@
 \title{Methods for Function \code{densityplot} in Package \pkg{pdR}}
 \description{Methods for function \code{densityplot} in package \pkg{pdR}}
 \usage{
-\S4method{densityplot}{PD}(x, vars)
-\S4method{densityplot}{PDCluster}(x, vars, clusters)
+\S4method{densityplot}{PD,missing}(x, vars)
+\S4method{densityplot}{PDCluster,missing}(x, vars, clusters)
 }
 \arguments{
   \item{x}{A \code{PD} or \code{PDCluster} object}
@@ -24,6 +24,6 @@
 % \item{\code{signature(x = "PD", data = "missing")}}{
 % }
 % }}
-\seealso{\code{\link{lattice::densityplot}}, \code{\link{glayer}}}
+\seealso{\code{\link{densityplot}}, \code{\link{glayer}}}
 \keyword{methods}
 \author{Oscar Perpiñán Lamigueiro}

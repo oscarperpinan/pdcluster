@@ -15,6 +15,7 @@ label.densityplot <- function(x, group.number, col.line){
   ltext(d$x[i],d$y[i],group.number,adj=c(0.2,0),col=col.line, cex=0.7)
 }
 
+setGeneric('densityplot')
 setMethod('densityplot', signature=c(x='PD', data='missing'),
           definition=function(x, vars){
             if (missing(vars)) vars <- names(x@data)

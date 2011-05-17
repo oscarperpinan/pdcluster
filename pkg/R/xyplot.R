@@ -6,7 +6,7 @@ layerRef <- function(object){
     panel.xyplot(ang, amplitud*sin(ang*pi/180)+centro, type='l', col='gray', lwd=1.4)
   }, data=object)
 }
-setGeneric('xyplot', function(x, data,...){standardGeneric('xyplot')})
+setGeneric('xyplot')##, function(x, data,...){standardGeneric('xyplot')})
 setMethod('xyplot',
           signature=c(x='PD', data='missing'),
           definition <- function(x,

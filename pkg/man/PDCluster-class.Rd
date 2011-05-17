@@ -2,17 +2,9 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{PDCluster-class}
-\alias{as.data.frame,PDCluster-method}
-\alias{densityplot,PDCluster,missing-method}
-\alias{histogram,PDCluster,missing-method}
-\alias{PD2Long,PDCluster-method}
-\alias{show,PDCluster-method}
-\alias{xyplot,PDCluster,missing-method}
 
 \title{Class \code{"PDCluster"}}
-\description{
-%% A concise (1-5 lines) description of what the class is.
-}
+\description{Partial discharge clusters class.}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("PDCluster", ...)}.
 %% describe objects here
@@ -29,9 +21,8 @@ Objects can be created by calls of the form \code{new("PDCluster", ...)}.
       classification result as noise.}
     \item{\code{noise.rm}}{logical, have the noisy results been removed?}
     \item{\code{dist}:}{Object of class \code{"data.frame"}}
-    \item{\code{angle, data, refl, filtered, transfomed, refl.rm,
-	description}:}{See \code{\linkS4class{PD}}}
-    \item{\code{description}:}{character}
+    %\item{\code{angle, data, refl, filtered, transfomed, refl.rm,
+%	description}:}{See \code{\linkS4class{PD}}}
   }
 }
 \section{Extends}{

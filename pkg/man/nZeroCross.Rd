@@ -2,6 +2,7 @@
 \alias{nZeroCross}
 
 \title{Zero-cross rate}
+\description{Zero-cross rate}
 \usage{nZeroCross(x, ...)}
 
 \arguments{

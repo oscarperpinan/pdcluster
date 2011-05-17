@@ -3,9 +3,7 @@
 \title{
 Comparison of several Prony decompositions.
 }
-% \description{
-
-% }
+\description{Comparison of several Prony decompositions.}
 \usage{
 compProny(x, dt = 1e-08, M = seq(4, 20, 4), clean = TRUE)
 }

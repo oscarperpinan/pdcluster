@@ -2,34 +2,20 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{PD-class}
-\alias{as.data.frame,PD-method}
-\alias{claraPD,PD-method}
-\alias{densityplot,PD,missing-method}
-\alias{filterPD,PD-method}
-\alias{histogram,PD,missing-method}
-\alias{identifyPD,PD-method}
-\alias{isFiltered,PD-method}
-\alias{isTransformed,PD-method}
-\alias{PD2Long,PD-method}
-\alias{show,PD-method}
-\alias{splom,PD,missing-method}
-\alias{transformPD,PD-method}
-\alias{xyplot,PD,missing-method}
 
 \title{Class \code{"PD"}}
-\description{
-%% A concise (1-5 lines) description of what the class is.
-}
+\description{Partial discharge features class.}
+
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{\link{df2PD(x, ...)}}
+Objects can be created by calls of the form \code{df2PD(x, ...)}
 }
 \section{Slots}{
   \describe{
     \item{\code{angle}:}{numeric, reference angle (0:360)}
     \item{\code{data}:}{data.frame, result of the \code{\link{analysis}} function.}
     \item{\code{refl}:}{logical, is the signal of this row a reflection?}
-    \item{\code{filtered}:}{logical, has been filtered with \code{\link{filterPD}}?}
-    \item{\code{transformed}:}{logical, has been filtered with \code{\link{filterPD}}?}
+    \item{\code{filtered}:}{logical, has been filtered with \code{\link{filterPD-methods}}?}
+    \item{\code{transformed}:}{logical, has been filtered with \code{\link{filterPD-methods}}?}
     \item{\code{refl.rm}:}{logical, TRUE if the reflections were erased
       be \code{\link{filterPD}}}
     \item{\code{description}:}{character}

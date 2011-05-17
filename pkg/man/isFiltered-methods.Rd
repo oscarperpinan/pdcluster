@@ -1,5 +1,6 @@
 \name{isFiltered-methods}
 \docType{methods}
+\alias{isFiltered}
 \alias{isFiltered-methods}
 \alias{isFiltered,PD-method}
 \title{Methods for Function \code{isFiltered} }
@@ -10,7 +11,7 @@ Methods for function \code{isFiltered}
 \describe{
 
 \item{\code{signature(object = "PD")}}{TRUE if the object has been
-  filtered with \code{\link{filterPD}}
+  filtered with \code{\link{filterPD-methods}}
 }
 }}
 \keyword{methods}
