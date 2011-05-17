@@ -1,0 +1,203 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1.5cm,rmargin=1.5cm}
+\usepackage{color}
+
+\usepackage{url}
+\usepackage[unicode=true, 
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=true,pdfborder={0 0 0},backref=false,colorlinks=true]
+ {hyperref}
+\hypersetup{pdftitle={Partial Discharges Clustering},
+ pdfauthor={Oscar Perpiñán Lamigueiro}}
+ 
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage[noae]{Sweave}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rcommand}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%\VignetteIndexEntry{Partial Discharges Clustering}
+\usepackage{flafter}
+\usepackage{boxedminipage}
+\renewenvironment{Schunk}{\begin{center}
+    \scriptsize
+    \begin{boxedminipage}{0.95\textwidth}}{
+    \end{boxedminipage}\end{center}}
+
+\usepackage{siunitx}
+\sisetup{per=fraction,fraction=nice, decimalsymbol=comma}
+%\usepackage{lscape}
+\usepackage{mathpazo}%Letra palatino con fuentes para matemáticas
+
+\makeatother
+
+\begin{document}
+
+\setkeys{Gin}{width=0.5\textwidth}
+
+\title{\texttt{pdfCluster}: Partial Discharges Clustering} 
+
+
+\author{Oscar Perpiñán Lamigueiro \and Miguel Angel Sánchez Urán}
+
+
+\date{17 May 2011}
+
+\maketitle
+
+<<echo=TRUE>>=
+library(pdR)
+@ 
+
+\section{Feature generation}
+<<echo=FALSE>>=
+setwd('~/Investigacion/PD/Datos/20100922')
+@ 
+
+<<echo=TRUE>>=
+load('DescargasRAW.RData')
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+signal <- lista[[3]]
+plot(signal, type='l')
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+plot(no0(signal), type='l')
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+p <- compProny(signal, M=c(10, 20, 30, 40))
+print(p)
+@ 
+<<echo=TRUE>>=
+analysis(signal)
+@ 
+
+<<echo=TRUE>>=
+analysisList <- lapply(lista[1:10], analysis)
+pdData <- do.call(rbind, analysisList)
+
+pdSummary <- read.csv('descargas.csv')[1:10,]
+
+idxOrderSummary=order(pdSummary$sumaCuadrados)
+idxOrderData=order(pdData$energy)
+
+pdDataOrdered=cbind(pdData[idxOrderData,], 
+  pdSummary[idxOrderSummary,c('angulo', 'separacionOriginal')])
+
+##necesario para que las descargas NO estén ordenadas por nivel de energía, 
+##lo que provoca que clara no funcione bien (las muestras no son aleatorias)
+idx <- do.call(order, pdSummary[idxOrderSummary, c('segundo', 'inicio')])
+pdDataOrdered <- pdDataOrdered[idx,]
+@ 
+<<echo=TRUE>>=
+pd <- df2PD(pdDataOrdered)
+pd
+@ 
+
+
+
+\section{Transformations}
+\label{sec:transform}
+
+
+<<echo=TRUE>>=
+
+load('dfHibr17112010.RData')
+@ 
+
+<<echo=TRUE>>=
+dfHibr <- df2PD(dfHibr)
+
+dfHibr
+@ 
+
+<<echo=TRUE>>=
+dfFilter <- filterPD(dfHibr)
+
+dfFilter
+@ 
+
+<<echo=TRUE>>=
+dfTrans <- transformPD(dfFilter)
+
+dfTrans
+@ 
+
+Comparing the transformation, after and before:
+<<echo=TRUE>>=
+nZCbefore <- as.data.frame(dfFilter)$nZC
+nZCafter <- as.data.frame(dfTrans)$nZC
+comp <- data.frame(After=nZCafter, Before=nZCbefore)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+h <- histogram(~After+Before, data=comp,
+          scales=list(x=list(relation='free'),
+            y=list(relation='free',
+              draw=FALSE)),
+          breaks=100, col='gray',
+          xlab='',
+          strip.names=c(TRUE, TRUE), bg='gray', fg='darkblue')
+print(h)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+xyplot(dfTrans)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+splom(dfTrans)
+@ 
+<<echo=TRUE, fig=TRUE>>=
+hexbinplot(dfTrans)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+densityplot(dfTrans)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+histogram(dfTrans)
+@ 
+
+\section{Clustering}
+\label{sec:clustering}
+
+
+<<echo=TRUE>>=
+dfTransCluster <- claraPD(dfTrans, noise.level=0.7, noise.rm=TRUE)
+
+dfTransCluster
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+p1 <- xyplot(dfTransCluster)
+print(p1)
+@ 
+<<echo=TRUE, fig=TRUE>>=
+p2 <- xyplot(dfTransCluster, panelClust=FALSE)
+print(p2)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+densityplot(dfTransCluster)
+@ 
+
+<<echo=TRUE, fig=TRUE>>=
+histogram(dfTransCluster)
+@ 
+
+\end{document}
