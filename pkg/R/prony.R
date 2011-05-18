@@ -43,25 +43,29 @@ prony <- function(x, M=6, dt=1e-8, clean=TRUE){
   pos=(frequencies>1)
   ##energía transportada por cada complejo
   energy=colSums(Re(CompFase[,pos])^2, na.rm=1)
+  ordEnergy=order(energy, decreasing=TRUE)
   stopifnot(sum(energy)>0)
+
   comp <- as.data.frame(2*Re(CompFase[,pos]))
-  comp$x=x
-  comp$xsim=xsim
+  comp <- comp[,ordEnergy]##order columns by energy
+  names(comp) <- paste('C', seq_along(ordEnergy), sep='')
+  
   comp <- stack(comp)
   names(comp) <- c('value', 'wave')
-  comp$time <- rep(time, sum(pos)+2)
-  ##maxEnergy=which(max(energy)==energy)
-  ordEnergy=order(energy, decreasing=TRUE)
+  comp$time <- rep(time, sum(pos))
+  ##Main result
+  signal=data.frame(orig=x, prony=xsim, time=time)
+
+  
 
   damp=dampings[pos][ordEnergy]
-  ##names(damp) <- paste('damp', seq_along(damp), sep='')
-
+ 
   freq=frequencies[pos][ordEnergy]
-  ##names(freq) <- paste('freq', seq_along(freq), sep='')
-  
+   
   result <- list(damp=damp, freq=freq,
                  energy=energy[ordEnergy]/sum(energy),
-                 comp=comp)
+                 comp=comp,
+                 signal=signal)
   class(result) <- 'prony'
   result
 }
@@ -73,37 +77,49 @@ prony <- function(x, M=6, dt=1e-8, clean=TRUE){
 ##   return(dat)
 ## }
 
-plot.prony <- function(x, all=TRUE,...){
-  if (all){
-    dat=x$comp
-  } else {
-    dat=droplevels(subset(x$comp, wave %in% c('x', 'xsim')))
-  }
-  xyplot(value~time, groups=wave, data=dat, type=c('l', 'g'), 
-         ylab='', auto.key=list(corner=c(1,0), lines=TRUE, points=FALSE))
+xyplot.prony <- function(x, all=FALSE,...){
+  
+  ##dat=droplevels(subset(x$comp, wave %in% c('x', 'xsim')))
+  dat <- x$signal
+  p <- xyplot(prony+orig~time, data=dat, type='l', ylab='', lwd=1.2,
+              par.settings=custom.theme(symbol=c("#000000", "#BDBDBD")),
+              auto.key=list(corner=c(1,0), lines=TRUE, points=FALSE))
 
+  if (all) {
+    dat2 <- x$comp
+    ## idx <- as.numeric(tapply(pr$comp$value, pr$comp$wave,
+    ##                          FUN=function(x)which.max(abs(x))))
+    p2 <- xyplot(value~time, groups=wave, data=dat2, type='l',
+                 par.settings=custom.theme.2(), ylab='')
+    ## p2 <- p2 + glayer({
+    ##   idx <- which.max(abs(y))
+    ##   panel.text(x[idx], y[idx], label=group.number, col=col.line, pos=3, cex=0.8)
+    ## })
+  
+    p <- p + p2
+  }
+  p
 }
 
-compProny <- function(x, dt=1e-8, M=seq(4, 20, 4), clean=TRUE){
-  if (clean) {
-    x <- no0(x)          ##Elimino ceros iniciales y finales
-    idx=which(x==max(x)) ##Sólo utilizo la señal desde el primer máximo
-    x=x[idx:length(x)]
-  }
-  df1 <- data.frame(value=x, wave='x', time=seq_along(x)*dt)
-  foo <- function(M, x, ...){
-    pr <- prony(x=x, dt=dt, M=M, clean=FALSE)##no hace falta volver a usar CLEAN
-    xsim <- droplevels(subset(pr$comp, wave=='xsim'))
-    xsim$wave=M#paste('M', M, sep='')
-    xsim
-  }
-  df2 <- lapply(M, foo, x=x, dt=dt)
-  df2 <- do.call('rbind', df2)
-  p <- xyplot(value~time, groups=wave, data=df2, type='l',
-              par.settings=custom.theme.2(), ylab='',
-              auto.key=list(corner=c(1,0), lines=TRUE, points=FALSE))
-  p + layer(panel.xyplot(time, value, type='l', col.line='black', lwd=2), data=df1)
+  compProny <- function(x, dt=1e-8, M=seq(4, 20, 4), clean=TRUE){
+    if (clean) {
+      x <- no0(x)        ##Elimino ceros iniciales y finales
+      idx=which(x==max(x)) ##Sólo utilizo la señal desde el primer máximo
+      x=x[idx:length(x)]
+    }
+    df1 <- data.frame(value=x, wave='x', time=seq_along(x)*dt)
+    foo <- function(M, x, ...){
+      pr <- prony(x=x, dt=dt, M=M, clean=FALSE) ##no hace falta volver a usar CLEAN
+      ## xsim <- droplevels(subset(pr$comp, wave=='xsim'))
+      ## xsim$wave=M                       #paste('M', M, sep='')
+      ## xsim
+      xsim <- data.frame(value=pr$signal$prony, time=pr$signal$time, wave=M)
+    }
+    df2 <- lapply(M, foo, x=x, dt=dt)
+    df2 <- do.call('rbind', df2)
+    p <- xyplot(value~time, groups=wave, data=df2, type='l',
+                par.settings=custom.theme.2(), ylab='',
+                auto.key=list(corner=c(1,0), lines=TRUE, points=FALSE))
+    p + layer(panel.xyplot(time, value, type='l', col.line='black', lwd=2), data=df1)
   }
 
-
-##EXAMPLE

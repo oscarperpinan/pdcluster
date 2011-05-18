@@ -66,7 +66,7 @@
 
 \setkeys{Gin}{width=0.5\textwidth}
 
-\title{\texttt{pdfCluster}: Partial Discharges Clustering} 
+\title{\texttt{pdCluster}: Partial Discharges Clustering} 
 
 
 \author{Oscar Perpiñán Lamigueiro \and Miguel Angel Sánchez Urán}
@@ -94,20 +94,19 @@ Prony's method allows for the estimation of frequency, amplitude,
 phase and damping components of the signal
 \cite{Kumaresan.Tufts1982,Hauer.Demeure.ea1990,Kumaresan.Tufts.ea1984}.
 
-Let's use one of the signals from the dataset (figure
-\ref{fig:pd_signal}). This signal contains zeros at the beginning and
-at the end. The \texttt{no0} function can remove these parts of the
-signal (figure \ref{fig:no0}).
+Let's use some signals from the dataset (figure
+\ref{fig:pd_signal}). The signals contain zeros at the beginning and
+at the end. The \texttt{no0} function can remove these parts (figure \ref{fig:no0}).
 <<>>=
-signal <- lista[[3]]
+signals <- lista[1:25]
 @ 
 
 \begin{figure}
   \centering
 <<echo=TRUE, fig=TRUE>>=
-plot(signal, type='l')
+xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(x))})
 @
-  \caption{Partial discharge signal}
+  \caption{Partial discharge signals}
   \label{fig:pd_signal}
 \end{figure}
 
@@ -115,13 +114,13 @@ plot(signal, type='l')
 \begin{figure}
   \centering
 <<echo=TRUE, fig=TRUE>>=
-plot(no0(signal), type='l')
+xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
 @
-  \caption{Partial discharge signal after a threshold cleaning}
+  \caption{Partial discharge signals after a threshold cleaning}
   \label{fig:no0}
 \end{figure}
 
-With this cleaned signal the Prony's method can provide their
+With these cleaned signals the Prony's method can provide their
 components (figure \ref{fig:prony}). Since the number of components
 must be fixed \emph{a priori}, the function \texttt{compProny} allows
 the comparison of different numbers (figure \ref{fig:pronyComp})
@@ -129,8 +128,9 @@ the comparison of different numbers (figure \ref{fig:pronyComp})
 \begin{figure}
   \centering
 <<echo=TRUE, fig=TRUE>>=
-p <- prony(signal, M=10)
-print(plot(p))
+signal <- signals[[3]]
+pr <- prony(signal, M=10)
+print(xyplot(pr))
 @ 
   \caption{Prony's method results}
   \label{fig:prony}

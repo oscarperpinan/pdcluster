@@ -18,12 +18,13 @@
 setClass(
          Class='PD', 
          representation=representation(
-           angle='numeric',             #angle, degrees
+           angle='numeric',             #vector of angles, degrees
            data='data.frame',           #data
-           refl='logical',
-           filtered='logical',
-           transformed='logical',
-           refl.rm='logical',
+           refl='logical',##vector
+           filtered='logical',##after subset
+           filter='call',##which filter I did?
+           transformed='logical',##after transformPD
+           refl.rm='logical',##!refl in filter?
            description='character'
            ),
          validity=function(object) {return(TRUE)}

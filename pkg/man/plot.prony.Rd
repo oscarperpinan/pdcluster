@@ -1,5 +1,5 @@
-\name{plot.prony}
-\alias{plot.prony}
+\name{xyplot.prony}
+\alias{xyplot.prony}
 
 \title{
 Plot of a Prony decomposition.
@@ -8,7 +8,7 @@ Plot of a Prony decomposition.
 Plot of a Prony decomposition.
 }
 \usage{
-plot.prony(x, all = TRUE, ...)
+xyplot.prony(x, all = FALSE, ...)
 }
 
 \arguments{

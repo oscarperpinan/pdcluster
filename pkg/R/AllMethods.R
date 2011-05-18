@@ -5,9 +5,12 @@ setMethod('show', 'PD',
             cat(object@description,'\n')
             cat('Number of observations: ', nrow(object@data), '\n')
             cat('Filtered?: ', isFiltered(object), '\n')
+            cat('Filter: ')
+            print(object@filter)
             cat('Transformed?:', isTransformed(object),'\n')
             cat('\nData:\n')
-            print(summary(as.data.frame(object)))
+            print(summary(object@data))
+            cat('Number of reflections: ', sum(object@refl),'\n')
           }
           )
 
