@@ -245,6 +245,31 @@ print(h)
   \label{fig:histogram}
 \end{figure}
 
+The \texttt{filterPD} method is a wrapper for the general
+\texttt{subset} method. With \texttt{subset} it is possible to extract
+a group of samples based on a condition and select only certain
+columns. The figure \ref{fig:splom_subset} shows a scatterplot matrix
+with \texttt{splom} of this subset. The \texttt{splom} graphical tool
+is explained in the next section.
+<<echo=TRUE>>=
+dfTransSubset <- subset(dfTrans, 
+                        subset=(angle >= 90 & angle <=180), 
+                        select=c(energy, W1, nZC))
+
+dfTransSubset
+@ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- splom(dfTransSubset)
+print(p)
+@   
+  \caption{Scatterplot matrix of a subset of \texttt{dfTrans}.}
+  \label{fig:splom_subset}
+\end{figure}
+
+
 \subsection{Graphical tools}
 \label{sec:graphics}
 
