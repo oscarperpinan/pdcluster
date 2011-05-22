@@ -3,9 +3,9 @@
 \alias{xyplot-methods}
 \alias{xyplot,PDCluster,missing-method}
 \alias{xyplot,PD,missing-method}
-\title{Methods for Function \code{xyplot} in Package \pkg{pdR}}
+\title{Methods for Function \code{xyplot} in Package \pkg{pdCluster}}
 \description{
-Methods for function \code{xyplot} in package \pkg{pdR}
+Methods for function \code{xyplot} in package \pkg{pdCluster}
 }
 \usage{
 \S4method{xyplot}{PD,missing}(x, par.settings = pd.theme,

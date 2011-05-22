@@ -2,9 +2,9 @@
 \docType{methods}
 \alias{splom-methods}
 \alias{splom,PD,missing-method}
-\title{Methods for Function \code{splom} in Package \pkg{pdR}}
+\title{Methods for Function \code{splom} in Package \pkg{pdCluster}}
 \description{
-Methods for function \code{splom} in package \pkg{pdR}
+Methods for function \code{splom} in package \pkg{pdCluster}
 }
 \usage{\S4method{splom}{PD,missing}(x, data,\dots)}
 \arguments{

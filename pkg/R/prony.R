@@ -77,7 +77,7 @@ prony <- function(x, M=6, dt=1e-8, clean=TRUE){
 ##   return(dat)
 ## }
 
-xyplot.prony <- function(x, all=FALSE,...){
+xyplot.prony <- function(x, data, all=FALSE,...){
   
   ##dat=droplevels(subset(x$comp, wave %in% c('x', 'xsim')))
   dat <- x$signal

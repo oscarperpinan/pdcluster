@@ -45,17 +45,15 @@ setMethod('subset',
                                  select,
                                  drop=FALSE,
                                  ...){
+##some code borrowed from base::subset.data.frame
             df <- as.data.frame(x)
             dat <- x@data
-
             if (missing(subset)) {
               r <- TRUE 
             } else {
               e <- substitute(subset)
               r <- eval(e, df, environment(df))
             }
-
-
             if (missing(select)) 
               vars <- TRUE
             else {
@@ -63,16 +61,9 @@ setMethod('subset',
               names(nl) <- names(dat)
               vars <- eval(substitute(select), nl, environment(dat))
             }
-
-          
             x@angle <- df$angle[r]
             x@data <- as.data.frame(dat[r, vars])
             x@refl <- df$refl[r]
-
-            ## x@filtered=TRUE
-            ## x@filter=e
-            ## x@refl.rm=("!refl" %in% strsplit(deparse(e), ' ')[[1]])
-
             x
           }
           )

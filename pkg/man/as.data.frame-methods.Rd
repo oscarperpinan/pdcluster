@@ -3,9 +3,9 @@
 \alias{as.data.frame-methods}
 \alias{as.data.frame,PD-method}
 \alias{as.data.frame,PDCluster-method}
-\title{Methods for Function \code{as.data.frame} in Package \pkg{pdR}}
+\title{Methods for Function \code{as.data.frame} in Package \pkg{pdCluster}}
 \description{
-Methods for function \code{as.data.frame} in package \pkg{pdR}}
+Methods for function \code{as.data.frame} in package \pkg{pdCluster}}
 \section{Methods}{
 \describe{
 \item{\code{signature(x = "PD")}}{

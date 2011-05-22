@@ -3,9 +3,9 @@
 \alias{histogram-methods}
 \alias{histogram,PDCluster,missing-method}
 \alias{histogram,PD,missing-method}
-\title{Methods for Function \code{histogram} in Package \pkg{pdR}}
+\title{Methods for Function \code{histogram} in Package \pkg{pdCluster}}
 \description{
-Methods for function \code{histogram} in package \pkg{pdR}
+Methods for function \code{histogram} in package \pkg{pdCluster}
 }
 \usage{
 \S4method{histogram}{PD,missing}(x, vars)

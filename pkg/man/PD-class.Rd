@@ -13,7 +13,10 @@ Objects can be created by calls of the form \code{df2PD(x, ...)}
   \describe{
     \item{\code{angle}:}{numeric, reference angle (0:360)}
     \item{\code{data}:}{data.frame, result of the \code{\link{analysis}} function.}
-    \item{\code{refl}:}{logical, is the signal of this row a reflection?}
+    \item{\code{refl}:}{logical, is the signal of this row a
+      reflection?}
+    \item{\code{filter}:}{\code{call}, condition used to filter the object
+      with \code{\link{filterPD-methods}}.}
     \item{\code{filtered}:}{logical, has been filtered with \code{\link{filterPD-methods}}?}
     \item{\code{transformed}:}{logical, has been filtered with \code{\link{filterPD-methods}}?}
     \item{\code{refl.rm}:}{logical, TRUE if the reflections were erased

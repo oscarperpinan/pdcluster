@@ -3,8 +3,8 @@
 \alias{densityplot-methods}
 \alias{densityplot,PDCluster,missing-method}
 \alias{densityplot,PD,missing-method}
-\title{Methods for Function \code{densityplot} in Package \pkg{pdR}}
-\description{Methods for function \code{densityplot} in package \pkg{pdR}}
+\title{Methods for Function \code{densityplot} in Package \pkg{pdCluster}}
+\description{Methods for function \code{densityplot} in package \pkg{pdCluster}}
 \usage{
 \S4method{densityplot}{PD,missing}(x, vars)
 \S4method{densityplot}{PDCluster,missing}(x, vars, clusters)

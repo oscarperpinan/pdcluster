@@ -80,7 +80,7 @@
 library(pdCluster)
 @ 
 
-The set of examples will use dataset which is loaded with:
+The set of examples will use a dataset which is loaded with:
 <<echo=TRUE>>=
 load('~/Investigacion/PD/Datos/20100922/DescargasRAW.RData')
 @ 
@@ -104,7 +104,8 @@ signals <- lista[1:25]
 \begin{figure}
   \centering
 <<echo=TRUE, fig=TRUE>>=
-xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(x))})
+p <- xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(x))})
+print(p)
 @
   \caption{Partial discharge signals}
   \label{fig:pd_signal}
@@ -114,7 +115,8 @@ xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(x))})
 \begin{figure}
   \centering
 <<echo=TRUE, fig=TRUE>>=
-xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
+p <- xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
+print(p)
 @
   \caption{Partial discharge signals after a threshold cleaning}
   \label{fig:no0}
@@ -196,9 +198,7 @@ pd
 The results of \texttt{analysis} to the whole dataset are available with:
 <<echo=TRUE>>=
 load('~/Investigacion/PD/Datos/20100922/dfHibr17112010.RData')
-@
 
-<<echo=TRUE>>=
 dfHibr <- df2PD(dfHibr)
 
 dfHibr
@@ -338,10 +338,14 @@ print(p)
 \label{sec:clustering}
 
 The filtered and transformed object can now be used with the
-clustering algorithm \cite{Struyf.Hubert.ea1997}. The results are displayed with a phase resolved
-pattern with clusters in separate clusters in the figure
-\ref{fig:xyplotClusterSeparate}, and with superposed clusters in the
-figure \ref{fig:xyplotCluster}.
+clustering algorithm \cite{Struyf.Hubert.ea1997}. The results are
+displayed with a phase resolved pattern with clusters in separate
+panels in the figure \ref{fig:xyplotClusterSeparate}. The colors
+encode the distance of each point to the \emph{medoid} of its
+cluster. The figure \ref{fig:xyplotCluster} displays the same pattern
+with superposed clusters. Here the colors encode the membership to a
+certain cluster, and transparency is used to denote density of points
+in a region.
 
 The results can be easily understood with the density plots of each
 cluster and feature (figure \ref{fig:densityCluster}) or with the

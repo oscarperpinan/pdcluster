@@ -8,12 +8,13 @@ Plot of a Prony decomposition.
 Plot of a Prony decomposition.
 }
 \usage{
-xyplot.prony(x, all = FALSE, ...)
+xyplot.prony(x, data, all = FALSE, ...)
 }
 
 \arguments{
   \item{x}{A \code{\link{prony}} object
-}
+  }
+  \item{data}{Not used.}
   \item{all}{logical, should all the components be drawn?}
   \item{\dots}{Additional arguments for \code{\link{prony}}}
 }

@@ -39,7 +39,7 @@ prony(x, M = 6, dt = 1e-08, clean = TRUE)
 }
 
 \seealso{
-\code{\link{plot.prony}}, \code{\link{compProny}}, \code{\link{hankel}}, \code{\link{solve}}
+\code{\link{xyplot.prony}}, \code{\link{compProny}}, \code{\link{hankel}}, \code{\link{solve}}
 \code{\link{polyroot}}, \code{\link{qr.solve}}
 }
 \examples{

@@ -26,7 +26,7 @@ compProny(x, dt = 1e-08, M = seq(4, 20, 4), clean = TRUE)
 }
 
 \seealso{
-\code{layer}, \code{\link{prony}}, \code{\link{plot.prony}}
+\code{layer}, \code{\link{prony}}, \code{\link{xyplot.prony}}
 }
 \examples{
 ## setwd('~/Investigacion/PD/Datos/20100922')##Con estas he hecho todo el desarrollo inicial
