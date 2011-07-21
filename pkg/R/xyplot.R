@@ -44,7 +44,7 @@ setMethod('xyplot',
               p <- xyplot(energy~angle, data=dt,
                           xscale.components=angleScale,
                           xlab=xlab, ylab=ylab,
-                          par.settings=par.settings, alpha=alpha)
+                          par.settings=par.settings, alpha=alpha, ...)
             }
             result <- p+layerRef(dt)+layerGrid 
             print(result)
@@ -99,19 +99,19 @@ setMethod('xyplot',
               } else { ##todo junto
                 formula <- as.formula('energy~angle|cluster')
                 p <- fooplot(formula, distFactor, dt, alpha=alpha,
-                             par.settings=par.settings, keyTitle='Distance\nto Medoid')
+                             par.settings=par.settings, keyTitle='Distance\nto Medoid', ...)
               }  
             } else {                       ##end of panelClust==TRUE
               if (plot.refl & !x@refl.rm){ ##muestro los reflejos en paneles separados
                 formula <- as.formula('energy~angle|refl')
                 p <- fooplot(formula, cluster, dt, alpha=alpha,
                              par.settings=custom.theme.3,
-                             keyTitle='Clusters')
+                             keyTitle='Clusters', ...)
               } else { ##todo junto
                 formula <- as.formula('energy~angle')
                 p <- fooplot(formula, cluster, dt, alpha=alpha,
                              par.settings=custom.theme.3,
-                             keyTitle='Clusters')
+                             keyTitle='Clusters', ...)
               }
             }
             result <- p + layerRef(dt) + layerGrid

@@ -118,7 +118,9 @@ xyplot.prony <- function(x, data, all=FALSE,...){
     df2 <- lapply(M, foo, x=x, dt=dt)
     df2 <- do.call('rbind', df2)
     p <- xyplot(value~time, groups=wave, data=df2, type='l',
-                par.settings=custom.theme.2(), ylab='',
+                par.settings=custom.theme.2(),
+                ylab='', scales=list(y=list(draw=FALSE)),
+                xlab='Time (seconds)',
                 auto.key=list(corner=c(1,0), lines=TRUE, points=FALSE))
     p + layer(panel.xyplot(time, value, type='l', col.line='black', lwd=2), data=df1)
   }

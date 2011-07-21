@@ -4,7 +4,7 @@ setMethod('hexbinplot',
           definition=function(x, 
             xlab='phase',
             ylab='energy',
-            plot.refl=TRUE
+            plot.refl=TRUE, ...
             ){
             pens <- t(matrix(brewer.pal('PuBu', n=4), nrow=2))
             dt <- x@data
@@ -18,14 +18,15 @@ setMethod('hexbinplot',
                               pen=pens, border=0,
                               xlab=xlab, ylab=ylab,
                               strip=strip.custom(strip.names=c(TRUE, TRUE),
-                                strip.levels=c(TRUE, TRUE), bg='gray')
+                                strip.levels=c(TRUE, TRUE), bg='gray'),
+                              ...
                               )
             } else { ##todo junto
               p <- hexbinplot(energy~angle, data=dt,
                               xscale.components=angleScale,
                               xlab=xlab, ylab=ylab,
                               aspect=2, style='nested.centroids',
-                              pen=pens, border=0)
+                              pen=pens, border=0, ...)
             }
             result <- p + layerRef(dt) + layerGrid
             print(result)
@@ -39,7 +40,7 @@ setMethod('hexbinplot',
             panelClust=TRUE,
             xlab='phase',
             ylab='energy',
-            plot.refl=TRUE
+            plot.refl=TRUE, ...
             ){
             pens <- t(matrix(brewer.pal('PuBu', n=4), nrow=2))
             dt <- x@data
@@ -59,7 +60,7 @@ setMethod('hexbinplot',
                                     strip=strip.custom(strip.names=c(TRUE, TRUE),
                                       strip.levels=c(TRUE, TRUE), bg='gray'),
                                     strip.left=strip.custom(strip.levels=c(TRUE, TRUE),
-                                      strip.names=c(TRUE, TRUE), bg='gray'))
+                                      strip.names=c(TRUE, TRUE), bg='gray', ...))
               } else { ##plot.refl=TRUE
                 p <- hexbinplot(energy~angle|cluster, data=dt,
                                 xscale.components=angleScale,
@@ -67,14 +68,14 @@ setMethod('hexbinplot',
                                 subset=(cluster %in% clusters),
                                 xlab=xlab, ylab=ylab,
                                 strip=strip.custom(strip.names=c(TRUE, TRUE),
-                                  strip.levels=c(TRUE, TRUE), bg='gray'))
+                                  strip.levels=c(TRUE, TRUE), bg='gray', ...))
               }
               
             } else { ##panelClust=FALSE
               p <- hexbinplot(as(x, 'PD'),
                               xscale.components=angleScale,
                               xlab=xlab, ylab=ylab,
-                              plot.refl=plot.refl)
+                              plot.refl=plot.refl, ...)
             }
             result <- p + layerRef(dt) + layerGrid
             print(result)

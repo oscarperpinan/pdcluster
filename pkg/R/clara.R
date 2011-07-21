@@ -3,10 +3,22 @@ setGeneric('claraPD', function(object, ...){standardGeneric('claraPD')})
 setMethod('claraPD',
           signature=(object='PD'),
           definition <- function(object,
-            nSims=25, nCl=7, metric='manhattan',
-            noise.level=0.7, noise.rm=TRUE,
-            seed=421){
-            dt <- object@data
+                                 vars,
+                                 nSims=25, nCl=7, metric='manhattan',
+                                 noise.level=0.7, noise.rm=TRUE,
+                                 seed=421){
+            if (missing(vars)){
+              dt <- object@data
+              notInVars <- FALSE
+            } else {
+              dt <- object@data[vars]
+              if (!('energy' %in% vars)){
+                energy <- object@data$energy
+                notInVars <- TRUE
+              } else {
+                notInVars <- FALSE
+                }
+            }
             ## Preparo matrices
             set.seed(seed)              # (reproducibility)
             cl <- matrix(NA, nrow(dt), nSims)
@@ -41,23 +53,25 @@ setMethod('claraPD',
                                  distRel=distRel,
                                  distFactor=distFactor)
             ##Entrego resultados
-            if(noise.rm){
-              object@angle <- object@angle[!noise]
-              object@refl <- object@refl[!noise]
-              dt <- dt[!noise,]
-              fuzzyCl <- fuzzyCl[!noise]
-              distDF <- distDF[!noise,]
+            if (notInVars) dt$energy <- energy
+
+              if(noise.rm){
+                object@angle <- object@angle[!noise]
+                object@refl <- object@refl[!noise]
+                dt <- dt[!noise,]
+                fuzzyCl <- fuzzyCl[!noise]
+                distDF <- distDF[!noise,]
+              }
+              object@data <- dt
+              result <- new(Class='PDCluster',
+                            object, ##PDCluster contains a PD object
+                            cluster=fuzzyCl,
+                            nSims=nSims,
+                            nClusters=nCl,
+                            metric=metric,
+                            noise.level=noise.level,
+                            noise.rm=noise.rm,
+                            dist=distDF)
+              result
             }
-            object@data <- dt
-            result <- new(Class='PDCluster',
-                          object, ##PDCluster contains a PD object
-                          cluster=fuzzyCl,
-                          nSims=nSims,
-                          nClusters=nCl,
-                          metric=metric,
-                          noise.level=noise.level,
-                          noise.rm=noise.rm,
-                          dist=distDF)
-            result
-          }
-          )
+            )
