@@ -1,0 +1,406 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{graphicx}
+\geometry{verbose,tmargin=2cm,bmargin=2cm,lmargin=1.5cm,rmargin=1.5cm}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    bookmarksnumbered=false,
+    bookmarksopen=false,
+    breaklinks=true,
+    backref=true,
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={Partial discharge analysis and clustering}
+    pdfauthor={Oscar Perpiñán Lamigueiro},     % author
+    pdfsubject={Partial discharge clustering},   % subject of the document
+    pdfcreator={AucTeX/Emacs},   % creator of the document
+    pdfproducer={LaTeX}, % producer of the document
+    pdfkeywords={partial discharge, clustering, feature generation,
+      graphical tools}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    pdfborder={0 0 0},
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=BrickRed,          % color of internal links
+    citecolor=BrickRed,        % color of links to bibliography
+    filecolor=black,      % color of file links
+    urlcolor=Blue           % color of external links 
+}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\usepackage[noae]{Sweave}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rcommand}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\textit{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\textit{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%\VignetteIndexEntry{Partial Discharges Clustering}
+\usepackage{flafter}
+\usepackage{boxedminipage}
+\renewenvironment{Schunk}{\begin{center}
+    \scriptsize
+    \begin{boxedminipage}{0.95\textwidth}}{
+    \end{boxedminipage}\end{center}}
+
+\usepackage{siunitx}
+\sisetup{per=fraction,fraction=nice, decimalsymbol=comma}
+%\usepackage{lscape}
+\usepackage{mathpazo}%Letra palatino con fuentes para matemáticas
+
+\makeatother
+
+\begin{document}
+
+\setkeys{Gin}{width=0.5\textwidth}
+
+\title{\texttt{pdCluster}: Partial Discharges Clustering} 
+
+
+\author{Oscar Perpiñán Lamigueiro \and Miguel Angel Sánchez Urán}
+
+
+\date{17 May 2011}
+
+\maketitle
+
+<<echo=TRUE>>=
+library(pdCluster)
+@ 
+
+The set of examples will use a dataset which is loaded with:
+<<echo=TRUE>>=
+load('~/Investigacion/PD/Datos/20100922/DescargasRAW.RData')
+@ 
+\section{Feature generation}
+
+\subsection{Prony}
+\label{sec:prony}
+A clean partial discharge signal can be regarded as a finite combination of
+damped complex exponentials. Under this assumption, the so-called
+Prony's method allows for the estimation of frequency, amplitude,
+phase and damping components of the signal
+\cite{Kumaresan.Tufts1982,Hauer.Demeure.ea1990,Kumaresan.Tufts.ea1984}.
+
+Let's use some signals from the dataset (figure
+\ref{fig:pd_signal}). The signals contain zeros at the beginning and
+at the end. The \texttt{no0} function can remove these parts (figure \ref{fig:no0}).
+<<>>=
+signals <- lista[1:25]
+@ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(x))})
+print(p)
+@
+  \caption{Partial discharge signals}
+  \label{fig:pd_signal}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- xyplot(signals, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
+print(p)
+@
+  \caption{Partial discharge signals after a threshold cleaning}
+  \label{fig:no0}
+\end{figure}
+
+With these cleaned signals the Prony's method can provide their
+components (figure \ref{fig:prony}). Since the number of components
+must be fixed \emph{a priori}, the function \texttt{compProny} allows
+the comparison of different numbers (figure \ref{fig:pronyComp})
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+signal <- signals[[3]]
+pr <- prony(signal, M=10)
+print(xyplot(pr))
+@ 
+  \caption{Prony's method results}
+  \label{fig:prony}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- compProny(signal, M=c(10, 20, 30, 40))
+print(p)
+@  
+  \caption{Comparison of different Prony decompositions}
+  \label{fig:pronyComp}
+\end{figure}
+ 
+\subsection{Feature generation}
+\label{sec:features}
+
+The \texttt{pdCluster} includes several functions for feature
+generation. The \texttt{analysis} functions comprises all of them. The
+results for our example signal are:
+<<echo=TRUE>>=
+analysis(signal)
+@ 
+
+This function can be used with a list of signals in order to obtain a
+matrix of features:
+<<echo=TRUE>>=
+analysisList <- lapply(lista[1:10], analysis)
+pdData <- do.call(rbind, analysisList)
+@ 
+
+Now we need the angle and reflection information, available from
+another different file. In order to safely share the information, both
+data frames must be reordered by their energy values: 
+<<echo=TRUE>>= 
+pdSummary <-
+read.csv('~/Investigacion/PD/Datos/20100922/descargas.csv')[1:10,]
+
+idxOrderSummary=order(pdSummary$sumaCuadrados)
+idxOrderData=order(pdData$energy)
+
+pdDataOrdered=cbind(pdData[idxOrderData,], 
+pdSummary[idxOrderSummary,c('angulo', 'separacionOriginal')])
+@ 
+
+Later, the data frame to be used with the clustering algorithm has to
+ordered by time. Thus the samples of the \texttt{clara} method will
+be random.
+<<echo=TRUE>>=
+idx <- do.call(order, pdSummary[idxOrderSummary, c('segundo', 'inicio')])
+pdDataOrdered <- pdDataOrdered[idx,]
+@ 
+
+We can now construct a \texttt{PD} object\footnote{The
+  \texttt{pdCluster} package is designed with S4 classes and
+  methods. Two classes have been defined: \texttt{PD} and \texttt{PDCluster}.}.
+<<echo=TRUE>>=
+pd <- df2PD(pdDataOrdered)
+pd
+@ 
+
+The results of \texttt{analysis} to the whole dataset are available with:
+<<echo=TRUE>>=
+load('~/Investigacion/PD/Datos/20100922/dfHibr17112010.RData')
+
+dfHibr <- df2PD(dfHibr)
+
+dfHibr
+@
+\section{Transformations}
+\label{sec:transform}
+
+Prior to the clustering algorithm, the feature matrix has to be
+filtered:
+
+<<echo=TRUE>>=
+dfFilter <- filterPD(dfHibr)
+@ 
+and transformed \cite{Box.Cox1964}:
+
+<<echo=TRUE>>=
+dfTrans <- transformPD(dfFilter)
+
+dfTrans
+@ 
+
+The figure \ref{fig:histogram} compares the datasets after and before
+of the transformations:
+
+<<echo=TRUE>>=
+nZCbefore <- as.data.frame(dfFilter)$nZC
+nZCafter <- as.data.frame(dfTrans)$nZC
+comp <- data.frame(After=nZCafter, Before=nZCbefore)
+@ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+h <- histogram(~After+Before, data=comp,
+          scales=list(x=list(relation='free'),
+            y=list(relation='free',
+              draw=FALSE)),
+          breaks=100, col='gray',
+          xlab='',
+          strip.names=c(TRUE, TRUE), bg='gray', fg='darkblue')
+print(h)
+@   
+  \caption{Histogram of a collection of partial discharges}
+  \label{fig:histogram}
+\end{figure}
+
+The \texttt{filterPD} method is a wrapper for the general
+\texttt{subset} method. With \texttt{subset} it is possible to extract
+a group of samples based on a condition and select only certain
+columns. The figure \ref{fig:splom_subset} shows a scatterplot matrix
+with \texttt{splom} of this subset. The \texttt{splom} graphical tool
+is explained in the next section.
+<<echo=TRUE>>=
+dfTransSubset <- subset(dfTrans, 
+                        subset=(angle >= 90 & angle <=180), 
+                        select=c(energy, W1, nZC))
+
+dfTransSubset
+@ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- splom(dfTransSubset)
+print(p)
+@   
+  \caption{Scatterplot matrix of a subset of \texttt{dfTrans}.}
+  \label{fig:splom_subset}
+\end{figure}
+
+
+\subsection{Graphical tools}
+\label{sec:graphics}
+
+The \texttt{pdCluster} packages includes a set of graphical
+exploratory tools, such as a scatterplot matrices with hexagonal
+binning \cite{Carr.Littlefield.ea1987} (figure \ref{fig:splom}), density plots (figure
+\ref{fig:density}), histograms (figure \ref{fig:histograms}) or phase
+resolved partial discharge patterns, both with partial transparency
+(figure \ref{fig:xyplot}) or hexagonal binning (figure
+\ref{fig:hexbinplot}).
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- splom(dfTrans)
+print(p)
+@  
+  \caption{Scatterplot matrix of a collection of partial discharges}
+  \label{fig:splom}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- densityplot(dfTrans)
+print(p)
+@
+  \caption{Density plot of a collection of partial discharges}
+  \label{fig:density}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- histogram(dfTrans)
+print(p)
+@
+  \caption{Histograms of a collection of partial discharges}
+  \label{fig:histograms}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- xyplot(dfTrans)
+print(p)
+@  
+  \caption{Partial discharge phase resolved pattern.}
+  \label{fig:xyplot}
+\end{figure}
+ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- hexbinplot(dfTrans)
+print(p)
+@
+  \caption{Partial discharge phase resolved pattern with hexbinplot }
+  \label{fig:hexbinplot}
+\end{figure}
+
+
+
+\section{Clustering}
+\label{sec:clustering}
+
+The filtered and transformed object can now be used with the
+clustering algorithm \cite{Struyf.Hubert.ea1997}. The results are
+displayed with a phase resolved pattern with clusters in separate
+panels in the figure \ref{fig:xyplotClusterSeparate}. The colors
+encode the distance of each point to the \emph{medoid} of its
+cluster. The figure \ref{fig:xyplotCluster} displays the same pattern
+with superposed clusters. Here the colors encode the membership to a
+certain cluster, and transparency is used to denote density of points
+in a region.
+
+The results can be easily understood with the density plots of each
+cluster and feature (figure \ref{fig:densityCluster}) or with the
+histograms (figure \ref{fig:histogramsCluster}).
+
+<<echo=TRUE>>=
+dfTransCluster <- claraPD(dfTrans, noise.level=0.7, noise.rm=TRUE)
+
+dfTransCluster
+@ 
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- xyplot(dfTransCluster)
+print(p)
+@  
+  \caption{Partial discharge phase resolved pattern with clusters in
+    separate panels.}
+  \label{fig:xyplotClusterSeparate}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- xyplot(dfTransCluster, panelClust=FALSE)
+print(p)
+@  
+  \caption{Partial discharge phase resolved pattern with clusters
+    marked with colors.}
+  \label{fig:xyplotCluster}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- densityplot(dfTransCluster)
+print(p)
+@
+  \caption{Density plot of the clusters of partial discharges}
+  \label{fig:densityCluster}
+\end{figure}
+
+\begin{figure}
+  \centering
+<<echo=TRUE, fig=TRUE>>=
+p <- histogram(dfTransCluster)
+print(p)
+@
+  \caption{Histograms of the clusters of partial discharges}
+  \label{fig:histogramsCluster}
+\end{figure}
+
+\bibliographystyle{alpha}
+\bibliography{/home/oscar/Bibliografia/BibUTF8}
+
+
+\end{document}
