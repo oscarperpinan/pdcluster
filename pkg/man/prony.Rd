@@ -20,17 +20,14 @@ prony(x, M = 6, dt = 1e-08, clean = TRUE)
   \item{clean}{logical, should x be cleaned with \code{\link{no0}} before the decomposition?
 }
 }
-\details{
 
-}
 \value{A \code{list} of class \code{prony} with:
   \item{damp}{numeric, damping factors of each component.}
   \item{freq}{numeric, frequency of each component.}
   \item{energy}{numeric, relative energy of each component.}
   \item{comp}{\code{data.frame}, each column being one of the components
     of the signal.}
-  
-}
+  }
 
 \author{Oscar Perpiñán Lamigueiro}
 \note{The result is ordered by the relative energy of the components.

@@ -19,14 +19,9 @@ Methods for function \code{histogram} in package \pkg{pdCluster}
 
 }
 \value{A trellis object}
-\details{
-}
-\references{
-}
+
 \seealso{\code{\link{histogram}}, \code{\link{useOuterStrips}},
   \code{\link{combineLimits}}, \code{\link{PD2Long-methods}}
-}
-\examples{
 }
 
 \keyword{methods}
