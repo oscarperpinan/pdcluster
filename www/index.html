@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 lang="en" xml:lang="en">
 <head>
 <title>pdCluster: Partial Discharges Clustering</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2011-07-22 18:49:49 CEST"/>
+<meta name="generated" content="2011-07-23 07:54:40 CEST"/>
 <meta name="author" content="Oscar Perpinan Lamigueiro"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -82,7 +82,19 @@ lang="en" xml:lang="en">
 <div id="content">
 
 <h1 class="title">pdCluster: Partial Discharges Clustering</h1>
-
+<p><a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
+defects. This package provides several tools for feature generation,
+exploratory graphical analysis, clustering and variable importance
+quantification for partial discharge signals.
+</p>
+<p>
+The development pages of <code>pdCluster</code> are <a href="https://r-forge.r-project.org/R/?group_id=1101">here</a>. It can be installed with:
+<code>install.packages("pdCluster", repos</code>"<a href="http://R-Forge.R-project.org">http://R-Forge.R-project.org</a>")=. 
+</p>
+<p>
+Along this webpage you will find some examples using some real
+datasets:
+</p>
 
 
 
@@ -92,15 +104,15 @@ lang="en" xml:lang="en">
 
 
 
-
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1 The Prony's method </a></li>
-<li><a href="#sec-2">2 Transformations </a></li>
-<li><a href="#sec-3">3 Graphical tools </a></li>
-<li><a href="#sec-4">4 Clustering </a></li>
+<li><a href="#sec-2">2 Feature generation </a></li>
+<li><a href="#sec-3">3 Transformations </a></li>
+<li><a href="#sec-4">4 Graphical tools </a></li>
+<li><a href="#sec-5">5 Clustering </a></li>
 </ul>
 </div>
 </div>
@@ -117,23 +129,25 @@ Prony's method allows for the estimation of frequency, amplitude,
 phase and damping components of the signal.
 </p>
 <p>
-Let's use some signals from the dataset. The signals contain zeros at the beginning and
-at the end. The <code>no0</code> function can remove these parts .
+We have a collection of signals in a <code>list</code> named <code>signalList</code>
+(<a href="signalList.RData">download</a>). 
 </p>
 
 
 
-<pre class="src src-r">signals <span style="color: #008b8b;">&lt;-</span> lista[1:25]
+<pre class="src src-r">load(<span style="color: #8b2252;">'signalList.RData'</span>)
 </pre>
 
 
 
+<p>
+The signals contain zeros at the beginning and at the
+end. The <code>no0</code> function can remove these parts.
+</p>
 
 
 
-
-
-<pre class="src src-r">xyplot(signals, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
+<pre class="src src-r">xyplot(signalList, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
 </pre>
 
 
@@ -143,20 +157,22 @@ at the end. The <code>no0</code> function can remove these parts .
 </p>
 <p>
 With these cleaned signals the Prony's method can provide their
-components . Since the number of components
-must be fixed \a priori\, the function <code>compProny</code> allows
-the comparison of different numbers:
+components. 
 </p>
 
 
 
-<pre class="src src-r">signal <span style="color: #008b8b;">&lt;-</span> signals[[3]]
+<pre class="src src-r">signal <span style="color: #008b8b;">&lt;-</span> signalList[[3]]
 pr <span style="color: #008b8b;">&lt;-</span> prony(signal, M=10)
 xyplot(pr)
 </pre>
 
 
 
+<p>
+Since the number of components must be fixed \a priori\,
+the function <code>compProny</code> allows the comparison of different numbers:
+</p>
 
 
 
@@ -168,9 +184,18 @@ xyplot(pr)
 <p>
 <img src="prony.png" width="480" alt="prony.png" />
 </p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Feature generation </h2>
+<div class="outline-text-2" id="text-2">
+
+
 <p>
-The <code>pdCluster</code> includes several functions for feature
-generation. The <code>analysis</code> functions comprises all of them. The
+<code>pdCluster</code> includes several functions for feature
+generation. The <code>analysis</code> function comprises all of them. The
 results for our example signal are:
 </p>
 
@@ -187,7 +212,7 @@ matrix of features:
 </p>
 
 
-<pre class="src src-r">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(lista[1:10], analysis)
+<pre class="src src-r">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(signalList[1:10], analysis)
 pdData <span style="color: #008b8b;">&lt;-</span> do.call(rbind, analysisList)
 </pre>
 
@@ -195,16 +220,24 @@ pdData <span style="color: #008b8b;">&lt;-</span> do.call(rbind, analysisList)
 
 <p>
 Now we need the angle and reflection information, available from
-another different file. In order to safely share the information, both
+another different dataset (named <code>pdSummary</code>, <a href="pdSummary.RData">download</a>). 
+</p>
+
+
+
+<pre class="src src-r">load(<span style="color: #8b2252;">'pdSummary.RData'</span>)
+</pre>
+
+
+
+<p>
+In order to safely share the information, both
 data frames must be reordered by their energy values: 
 </p>
 
 
 
-<pre class="src src-r">pdSummary <span style="color: #008b8b;">&lt;-</span>
-read.csv(<span style="color: #8b2252;">'~/Investigacion/PD/Datos/20100922/descargas.csv'</span>)[1:10,]
-
-idxOrderSummary=order(pdSummary$sumaCuadrados)
+<pre class="src src-r">idxOrderSummary=order(pdSummary$sumaCuadrados)
 idxOrderData=order(pdData$energy)
 
 pdDataOrdered=cbind(pdData[idxOrderData,], 
@@ -241,12 +274,12 @@ We can now construct a <code>PD</code> object. (The
 
 
 <p>
-The results of <code>analysis</code> to the whole dataset are available with:
+The results of <code>analysis</code> to the whole dataset are available <a href="dfHibr.RData">here</a>.
 </p>
 
 
 
-<pre class="src src-r">load(<span style="color: #8b2252;">'~/Investigacion/PD/Datos/20100922/dfHibr17112010.RData'</span>)
+<pre class="src src-r">load(<span style="color: #8b2252;">'dfHibr.RData'</span>)
 
 dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
 </pre>
@@ -257,9 +290,9 @@ dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
 
 </div>
 
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Transformations </h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Transformations </h2>
+<div class="outline-text-2" id="text-3">
 
 
 <p>
@@ -338,9 +371,9 @@ dfTransSubset
 
 </div>
 
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Graphical tools </h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Graphical tools </h2>
+<div class="outline-text-2" id="text-4">
 
 
 <p>
@@ -399,9 +432,9 @@ with partial transparency or hexagonal binning.
 
 </div>
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Clustering </h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Clustering </h2>
+<div class="outline-text-2" id="text-5">
 
 
 <p>
