@@ -8,22 +8,19 @@
 Methods for function \code{xyplot} in package \pkg{pdCluster}
 }
 \usage{
-\S4method{xyplot}{PD,missing}(x, xlab='phase', ylab='energy', par.settings = pd.theme,
-plot.refl = TRUE, alpha = 0.2, \dots)
+\S4method{xyplot}{PD,missing}(x, plot.refl = TRUE, \dots)
 \S4method{xyplot}{PDCluster,missing}(x, distances, clusters,
-                 xlab='phase', ylab='energy', par.settings = custom.theme.4,
-                 plot.refl = TRUE, panelClust = TRUE, alpha = 0.2, \dots)
+                 plot.refl = TRUE, panelClust = TRUE, \dots)
 }
 \arguments{
   \item{x}{A \code{PD} or \code{PDCluster} object.}
-  \item{xlab, ylab}{Character, labels of the axis.}
   \item{distances}{numeric, set of distances to be plot.}
   \item{clusters}{numeric, set of clusters to be plot.}
   \item{plot.refl}{logical, should be the reflections be drawn in
     separate panels?}
   \item{panelClust}{logical, if TRUE each cluster is drawn in a separate
   panel.}
-  \item{par.settings, alpha, \dots}{See \code{\link{xyplot}}}
+  \item{\dots}{Additional arguments for \code{\link{xyplot}}}
 }
 
 \keyword{methods}

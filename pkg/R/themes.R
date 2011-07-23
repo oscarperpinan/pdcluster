@@ -1,4 +1,4 @@
-pd.theme=custom.theme.2(pch=19, cex=0.7)
+pd.theme=custom.theme.2(pch=19, cex=0.7, symbol = brewer.pal(n=8, name = "Set1"))
 pd.theme$strip.background$col='lightgray'
 pd.theme$strip.shingle$col='transparent'
 

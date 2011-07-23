@@ -22,29 +22,21 @@ setGeneric('xyplot')##, function(x, data,...){standardGeneric('xyplot')})
 
 setMethod('xyplot',
           signature=c(x='PD', data='missing'),
-          definition <- function(x,
-                                 xlab='phase', ylab='energy',
-                                 par.settings=pd.theme,
-                                 plot.refl=TRUE,
-                                 alpha=0.2,...
-                                 ){
-            dt=x@data
-            dt$angle=x@angle
+          definition <- function(x, plot.refl=TRUE, ...){
+            dt=as.data.frame(x)
+            settings <- list(xlab='phase', ylab='energy',
+                                                       xscale.components=angleScale,
+                             par.settings=pd.theme, alpha=0.2)
+            call <- modifyList(settings, list(...))
+            call$data <- dt
             if (x@refl.rm==FALSE & plot.refl==TRUE){ ##muestro los reflejos en paneles separados
-              dt$refl=x@refl
-              p <- xyplot(energy~angle|refl, data=dt,
-                          xscale.components=angleScale,
-                          xlab=xlab, ylab=ylab,
-                          par.settings=par.settings, alpha=alpha,
-                          strip=strip.custom(strip.names=c(TRUE, TRUE),
-                            strip.levels=c(TRUE, TRUE), bg='gray'),
-                          ...
-                          )
+              call$strip=strip.custom(strip.names=c(TRUE, TRUE),
+                            strip.levels=c(TRUE, TRUE), bg='gray')
+              call$x <- as.formula('energy~angle|refl')
+              p <- do.call(xyplot, call)
             } else { ##todo junto
-              p <- xyplot(energy~angle, data=dt,
-                          xscale.components=angleScale,
-                          xlab=xlab, ylab=ylab,
-                          par.settings=par.settings, alpha=alpha, ...)
+              call$x <- as.formula('energy~angle')
+              p <- do.call(xyplot, call)
             }
             result <- p+layerRef(dt)+layerGrid 
             print(result)
@@ -55,66 +47,53 @@ setMethod('xyplot',
           signature=c(x='PDCluster', data='missing'),
           definition <- function(x,
                                  distances, clusters,
-                                 xlab='phase', ylab='energy',
-                                 par.settings=custom.theme.4,
                                  plot.refl=TRUE,
                                  panelClust=TRUE,
-                                 alpha=0.2,
                                  ...
                                  ){
             if (missing(distances)) distances <- seq_along(levels(factor(x@dist$distFactor)))
             if (missing(clusters)) clusters <- seq_along(levels(factor(x@cluster)))
-            dt=x@data
-            dt$angle=x@angle
-            dt$cluster=x@cluster
-            dt$distFactor=x@dist$distFactor
-            dt$refl=x@refl
-            fooplot <- function(formula, groups, data, keyTitle,
-                                ...){
-              environment(formula) <- environment() 
-              data=subset(data, (distFactor %in% distances) & (cluster %in% clusters))
-              groups=eval(substitute(groups), data, environment(formula))
-              p <- xyplot(formula, groups=groups, data=data,
-                          xscale.components=angleScale,
-                          xlab=xlab, ylab=ylab,
-                          auto.key=list(space='right', ##corner=c(1,1),
-                            title=keyTitle, cex.title=0.8,
-                            lines=FALSE, points=TRUE, cex=1),
-                          strip=strip.custom(strip.names=c(TRUE, TRUE),
-                            strip.levels=c(TRUE, TRUE), bg='gray'),
-                          ...)
-              p
-            }
+            dt <- as.data.frame(x)
+            settings <- list(xlab='phase', ylab='energy',
+                             alpha=0.2,
+                             xscale.components=angleScale,
+                             auto.key=list(space='right',
+                               cex.title=0.8,
+                               lines=FALSE, points=TRUE, cex=1),
+                             strip=strip.custom(strip.names=c(TRUE, TRUE),
+                               strip.levels=c(TRUE, TRUE), bg='gray'))
+            call <- modifyList(settings, list(...))           
+            call$data=subset(dt, (distFactor %in% distances) & (cluster %in% clusters))
             if (panelClust){
+              call$auto.key$title <- 'Distance\nto Medoid'
+                              call$groups=call$data$distFactor
+                call$par.settings <- custom.theme.4
               if (x@refl.rm==FALSE & plot.refl==TRUE){ ##muestro los reflejos en paneles separados
-                formula <- as.formula('energy~angle|cluster+refl')
-                p <- useOuterStrips(fooplot(formula, distFactor, dt,
-                                            par.settings=par.settings,
-                                            keyTitle='Distance\nto Medoid'),
+                call$x <- as.formula('energy~angle|cluster+refl')
+                px <- do.call(xyplot, call)
+                p <- useOuterStrips(px,
                                     strip=strip.custom(strip.names=c(TRUE, TRUE),
                                       strip.levels=c(TRUE, TRUE), bg='gray'),
                                     strip.left=strip.custom(strip.levels=c(TRUE, TRUE),
                                       strip.names=c(TRUE, TRUE), bg='gray')
                                     )
               } else { ##todo junto
-                formula <- as.formula('energy~angle|cluster')
-                p <- fooplot(formula, distFactor, dt, alpha=alpha,
-                             par.settings=par.settings, keyTitle='Distance\nto Medoid', ...)
+                call$x <- as.formula('energy~angle|cluster')
+                p <- do.call(xyplot, call)
               }  
-            } else {                       ##end of panelClust==TRUE
+            } else { ##end of panelClust==TRUE
+              call$auto.key$title <- 'Clusters'
+              call$groups=call$data$cluster
+              call$par.settings <- pd.theme
               if (plot.refl & !x@refl.rm){ ##muestro los reflejos en paneles separados
-                formula <- as.formula('energy~angle|refl')
-                p <- fooplot(formula, cluster, dt, alpha=alpha,
-                             par.settings=custom.theme.3,
-                             keyTitle='Clusters', ...)
+                call$x <- as.formula('energy~angle|refl')
+                p <- do.call(xyplot, call)
               } else { ##todo junto
-                formula <- as.formula('energy~angle')
-                p <- fooplot(formula, cluster, dt, alpha=alpha,
-                             par.settings=custom.theme.3,
-                             keyTitle='Clusters', ...)
+                call$x <- as.formula('energy~angle')
+                p <- do.call(xyplot, call)
               }
             }
-            result <- p + layerRef(dt) + layerGrid
+            result <- p + layerRef(call$data) + layerGrid
             print(result)
           }
           )
