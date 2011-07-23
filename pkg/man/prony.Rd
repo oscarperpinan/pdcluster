@@ -9,7 +9,7 @@ Prony's method
 \usage{
 prony(x, M = 6, dt = 1e-08, clean = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{x}{numeric
 }
@@ -31,9 +31,7 @@ prony(x, M = 6, dt = 1e-08, clean = TRUE)
     of the signal.}
   
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{Oscar Perpiñán Lamigueiro}
 \note{The result is ordered by the relative energy of the components.
 }
@@ -42,9 +40,3 @@ prony(x, M = 6, dt = 1e-08, clean = TRUE)
 \code{\link{xyplot.prony}}, \code{\link{compProny}}, \code{\link{hankel}}, \code{\link{solve}}
 \code{\link{polyroot}}, \code{\link{qr.solve}}
 }
-\examples{
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

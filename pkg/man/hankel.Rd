@@ -20,15 +20,6 @@ A numeric vector.
 
 \value{A matrix.}
 
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{Oscar Perpiñán Lamigueiro}
 
-\examples{
-
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

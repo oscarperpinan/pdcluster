@@ -10,7 +10,7 @@ Analysis of partial discharge signals.
 \usage{
 analysis(x, ...)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{x}{numeric, a partial discharge signal.}
   \item{\dots}{additional arguments for \code{\link{no0}} and \code{\link{wavVarPD}}
@@ -33,20 +33,11 @@ Prony's method (\code{\link{prony}}).
   \item{freq1, freq2, damp1, damp2}{Frequencies and damping factors of
     the most energetic components of the Prony's analysis.}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{Oscar Perpiñán Lamigueiro}
-\note{
-%% further notes~~
-}
+
 
 \seealso{
 \code{\link{no0}}, \code{\link{wavVarPD}}, \code{\link{prony}},
 \code{lapply}, \code{do.call}.
 }
-\examples{
-}
-
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

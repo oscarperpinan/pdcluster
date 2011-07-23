@@ -1,6 +1,6 @@
 \name{splom-methods}
 \docType{methods}
-\alias{splom-methods}
+\alias{splom}
 \alias{splom,PD,missing-method}
 \title{Methods for Function \code{splom} in Package \pkg{pdCluster}}
 \description{

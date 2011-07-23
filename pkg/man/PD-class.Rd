@@ -2,6 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{PD-class}
+\alias{show,PD-method}
+
 
 \title{Class \code{"PD"}}
 \description{Partial discharge features class.}
@@ -41,19 +43,7 @@ Objects can be created by calls of the form \code{df2PD(x, ...)}
     \item{xyplot}{\code{signature(x = "PD", data = "missing")}: ... }
 	 }
 }
-\references{
-%% put references to the literature/web site here~~
-}
+
 \author{Oscar Perpiñán Lamigueiro}
-\note{
-%% further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-}
-\examples{
-showClass("PD")
-}
 \keyword{classes}

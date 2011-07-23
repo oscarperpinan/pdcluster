@@ -1,6 +1,6 @@
 \name{hexbinplot-methods}
 \docType{methods}
-\alias{hexbinplot-methods}
+\alias{hexbinplot}
 \alias{hexbinplot,PD,missing-method}
 \alias{hexbinplot,PDCluster,missing-method}
 
@@ -8,9 +8,10 @@
 \description{Hexbinplot for \code{PD} and \code{PDCluster} classes.
 }
 \usage{
-\S4method{hexbinplot}{PD,missing}(x, xlab='angle', ylab='energy',
-plot.refl=TRUE)
-\S4method{hexbinplot}{PDCluster,missing}(x, clusters, panelClust=TRUE, xlab='angle', ylab='energy', plot.refl=TRUE)
+\S4method{hexbinplot}{PD,missing}(x, xlab='phase', ylab='energy',
+plot.refl=TRUE, \dots)
+\S4method{hexbinplot}{PDCluster,missing}(x, clusters, panelClust=TRUE,
+xlab='phase', ylab='energy', plot.refl=TRUE, \dots)
 }
 
 \arguments{
@@ -21,7 +22,8 @@ plot.refl=TRUE)
   \item{plot.refl}{logical, should be the reflections be drawn
     in separate panels?}
   \item{xlab, ylab}{character, labels of the
-  axis.}
+    axis.}
+  \item{\dots}{Additional arguments for \code{hexbinplot}.}
 
 }
 \value{A trellis graphic.
@@ -29,7 +31,5 @@ plot.refl=TRUE)
 
 \seealso{\code{\link{hexbinplot}}
 }
-% \examples{
-% }
 \author{Oscar Perpiñán Lamigueiro}
-%\keyword{}
+\keyword{methods}

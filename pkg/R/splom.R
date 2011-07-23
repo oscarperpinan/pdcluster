@@ -3,6 +3,7 @@ setMethod('splom',
           signature=c(x='PD', data='missing'),
           definition=function(x, ...){
             splom(~x@data,
+                  xlab='',
                   panel=panel.hexbinplot,
                   diag.panel = function(x, ...)
                   {

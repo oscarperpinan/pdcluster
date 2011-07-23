@@ -3,7 +3,7 @@ layerRef <- function(object){
     centro <- median(energy)
     amplitud <-1.5*IQR(energy)
     ang <- seq(0, 360, 5)
-    panel.xyplot(ang, amplitud*sin(ang*pi/180)+centro, type='l', col='gray', lwd=1.4)
+    panel.xyplot(ang, amplitud*sin(ang*pi/180)+centro, type='l', col.line='gray50', lwd=1.4)
   }, data=object)
 }
 

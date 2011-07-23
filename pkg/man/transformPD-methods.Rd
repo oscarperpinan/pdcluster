@@ -11,12 +11,12 @@ transformation from the Box-Cox family.
 }
 
 \usage{\S4method{transformPD}{PD}(object, fun)}
-\arguments{\itemize{
-    \item{object: }{A \code{PD} or \code{PDCluster} object.}
-    \item{fun: }{A function to be applied. If it is missing, then a
+
+\arguments{
+    \item{object}{A \code{PD} or \code{PDCluster} object.}
+    \item{fun}{A function to be applied. If it is missing, then a
       suitable Box-Cox transformation is selected for each variable. See
       \code{\link{powerTransform}}}
-    }
 }
 \keyword{methods}
 \author{Oscar Perpiñán Lamigueiro}

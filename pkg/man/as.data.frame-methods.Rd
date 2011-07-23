@@ -1,6 +1,6 @@
 \name{as.data.frame-methods}
 \docType{methods}
-\alias{as.data.frame-methods}
+\alias{as.data.frame}
 \alias{as.data.frame,PD-method}
 \alias{as.data.frame,PDCluster-method}
 \title{Methods for Function \code{as.data.frame} in Package \pkg{pdCluster}}

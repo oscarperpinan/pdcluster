@@ -18,22 +18,11 @@ Methods for function \code{identifyPD}
   \item{row}{numeric, see \code{\link{trellis.focus}}}
   \item{pch, cex, col, ...}{See \code{\link{panel.identify}}}
 }
+
 \value{A data.frame, a subset of the object}
-\details{
-}
-\references{
-}
+
 \seealso{\code{\link{choosePoints}}, \code{\link{trellis.focus}}, \code{\link{panel.identify}}
 }
-\examples{
-}
 
-% \section{Methods}{
-% \describe{
-
-% \item{\code{signature(object = "PD")}}{
-% %% describe this method here~~
-% }
-% }}
 \keyword{methods}
 \author{Oscar Perpiñán Lamigueiro}

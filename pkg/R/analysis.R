@@ -30,24 +30,5 @@ analysis <- function(x, ...){
   
 }
 
-##example
-## setwd('~/Investigacion/PD/Datos/20100922')##Con estas he hecho todo el desarrollo inicial
-
-## load('DescargasRAW.RData')
-## analysisList <- lapply(lista[1:10], analysis)
-## pdData <- do.call(rbind, analysisList)
-
-## pdSummary <- read.csv('descargas.csv')[1:10,]
-## idxOrderSummary=order(pdSummary$sumaCuadrados)
-## idxOrderData=order(pdData$energy)
-
-## pdDataOrdered=cbind(pdData[idxOrderData,], pdSummary[idxOrderSummary,c('angulo', 'separacionOriginal')])
-
-## ##necesario para que las descargas NO estén ordenadas por nivel de energía, lo que provoca que clara no funcione bien (las muestras no son aleatorias)
-## idx <- do.call(order, pdSummary[idxOrderSummary, c('segundo', 'inicio')])
-## pdDataOrdered <- pdDataOrdered[idx,]
-
-## pd <- df2PD(pdDataOrdered)
-#####################################3
 
 

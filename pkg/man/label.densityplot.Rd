@@ -15,5 +15,4 @@ label.densityplot(x, group.number, col.line)
 \value{A trellis layer for use with \code{\link{glayer}}}
 \author{Oscar Perpiñán Lamigueiro}
 \seealso{\code{\link{layer}}, \code{\link{densityplot}}}
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+

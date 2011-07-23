@@ -1,6 +1,6 @@
 \name{xyplot-methods}
 \docType{methods}
-\alias{xyplot-methods}
+\alias{xyplot}
 \alias{xyplot,PDCluster,missing-method}
 \alias{xyplot,PD,missing-method}
 \title{Methods for Function \code{xyplot} in Package \pkg{pdCluster}}
@@ -8,13 +8,15 @@
 Methods for function \code{xyplot} in package \pkg{pdCluster}
 }
 \usage{
-\S4method{xyplot}{PD,missing}(x, par.settings = pd.theme,
+\S4method{xyplot}{PD,missing}(x, xlab='phase', ylab='energy', par.settings = pd.theme,
 plot.refl = TRUE, alpha = 0.2, \dots)
-\S4method{xyplot}{PDCluster,missing}(x, distances, clusters, par.settings = custom.theme.4,
+\S4method{xyplot}{PDCluster,missing}(x, distances, clusters,
+                 xlab='phase', ylab='energy', par.settings = custom.theme.4,
                  plot.refl = TRUE, panelClust = TRUE, alpha = 0.2, \dots)
 }
 \arguments{
   \item{x}{A \code{PD} or \code{PDCluster} object.}
+  \item{xlab, ylab}{Character, labels of the axis.}
   \item{distances}{numeric, set of distances to be plot.}
   \item{clusters}{numeric, set of clusters to be plot.}
   \item{plot.refl}{logical, should be the reflections be drawn in
@@ -23,18 +25,6 @@ plot.refl = TRUE, alpha = 0.2, \dots)
   panel.}
   \item{par.settings, alpha, \dots}{See \code{\link{xyplot}}}
 }
-% \section{Methods}{
-% \describe{
 
-
-% \item{\code{signature(x = "PDCluster", data = "missing")}}{
-% %% describe this method here~~
-% }
-
-% \item{\code{signature(x = "PD", data = "missing")}}{
-% %% describe this method here~~
-% }
-
-% }}
 \keyword{methods}
 \author{Oscar Perpiñán Lamigueiro}

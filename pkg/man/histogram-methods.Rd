@@ -1,6 +1,6 @@
 \name{histogram-methods}
 \docType{methods}
-\alias{histogram-methods}
+\alias{histogram}
 \alias{histogram,PDCluster,missing-method}
 \alias{histogram,PD,missing-method}
 \title{Methods for Function \code{histogram} in Package \pkg{pdCluster}}

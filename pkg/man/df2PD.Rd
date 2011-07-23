@@ -32,29 +32,11 @@ character, columns of the \code{data.frame} to be selected.
   \item{description}{character}
 }
 
-\details{
-%% If necessary, more details than the description above
-}
-\value{A \code{\linkS4class{PD} object.}
 
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
+\value{A \code{\linkS4class{PD} object.}}
+
 \author{Oscar Perpiñán Lamigueiro}
-
-\note{
-%% further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 \code{\link{analysis}}
 }
-\examples{
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

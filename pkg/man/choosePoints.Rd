@@ -14,16 +14,5 @@ choosePoints(...)
   TRUE value.}
 
 \author{Oscar Perpiñán Lamigueiro}
-\note{
-%% further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{\code{trellis.focus}, \code{grid.locator}, \code{unit}, \code{in.out}}
-\examples{
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
