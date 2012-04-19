@@ -1,3 +1,4 @@
+#+PROPERTY: tangle yes
 pdCluster: Partial Discharges Clustering
 
 [[http://en.wikipedia.org/wiki/Partial_discharge][Partial discharge]] measurements analysis may determine the existence of
@@ -5,12 +6,18 @@ defects. This package provides several tools for feature generation,
 exploratory graphical analysis, clustering and variable importance
 quantification for partial discharge signals.
 
-The development pages of =pdCluster= are [[https://r-forge.r-project.org/R/?group_id%3D1101][here]].
+The development pages of =pdCluster= are [[https://r-forge.r-project.org/R/?group_id%3D1101][here]]. 
+It can be installed with: 
+
+#+begin_src r
+install.packages("pdCluster", repos="http://R-Forge.R-project.org")
+install.packages(c("hexbin", "RColorBrewer")) 	
+#+end_src
 
 Along this webpage you will find some examples using some real
 datasets.
 
-#+begin_src r
+#+begin_src R
 library(pdCluster)
 #+end_src
 
@@ -24,14 +31,14 @@ phase and damping components of the signal.
 We have a collection of signals in a =list= named =signalList=
 ([[file:signalList.RData][download]]). 
 
-#+begin_src r
+#+begin_src R
 load('signalList.RData')
 #+end_src
 
 The signals contain zeros at the beginning and at the
 end. The =no0= function can remove these parts.
   
-#+begin_src r
+#+begin_src R
 xyplot(signalList, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
 #+end_src
 
@@ -41,7 +48,7 @@ xyplot(signalList, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
 With these cleaned signals the Prony's method can provide their
 components. 
   
-#+begin_src r
+#+begin_src R
 signal <- signalList[[3]]
 pr <- prony(signal, M=10)
 xyplot(pr)
@@ -50,7 +57,7 @@ xyplot(pr)
 Since the number of components must be fixed \a priori\,
 the function =compProny= allows the comparison of different numbers:
   
-#+begin_src r
+#+begin_src R
 compProny(signal, M=c(10, 20, 30, 40))
 #+end_src  
 
@@ -63,13 +70,13 @@ compProny(signal, M=c(10, 20, 30, 40))
 generation. The =analysis= function comprises all of them. The
 results for our example signal are:
 
-#+begin_src r
+#+begin_src R
 analysis(signal)
 #+end_src 
 
 This function can be used with a list of signals in order to obtain a
 matrix of features:
-#+begin_src r
+#+begin_src R
 analysisList <- lapply(signalList[1:10], analysis)
 pdData <- do.call(rbind, analysisList)
 #+end_src 
@@ -77,14 +84,14 @@ pdData <- do.call(rbind, analysisList)
 Now we need the angle and reflection information, available from
 another different dataset (named =pdSummary=, [[file:pdSummary.RData][download]]). 
 
-#+begin_src r
+#+begin_src R
 load('pdSummary.RData')
 #+end_src
 
 In order to safely share the information, both
 data frames must be reordered by their energy values: 
 
-#+begin_src r 
+#+begin_src R 
 idxOrderSummary=order(pdSummary$sumaCuadrados)
 idxOrderData=order(pdData$energy)
 
@@ -96,7 +103,7 @@ Later, the data frame to be used with the clustering algorithm has to
 ordered by time. Thus the samples of the =clara= method will
 be random.
 
-#+begin_src r
+#+begin_src R
 idx <- do.call(order, pdSummary[idxOrderSummary, c('segundo', 'inicio')])
 pdDataOrdered <- pdDataOrdered[idx,]
 #+end_src 
@@ -105,13 +112,13 @@ We can now construct a =PD= object. (The
   =pdCluster= package is designed with S4 classes and
   methods. Two classes have been defined: =PD= and =PDCluster=).
 
-#+begin_src r
+#+begin_src R
 pd <- df2PD(pdDataOrdered)
 #+end_src 
 
 The results of =analysis= to the whole dataset are available [[file:dfHibr.RData][here]].
 
-#+begin_src r
+#+begin_src R
 load('dfHibr.RData')
 
 dfHibr <- df2PD(dfHibr)
@@ -122,26 +129,26 @@ dfHibr <- df2PD(dfHibr)
 Prior to the clustering algorithm, the feature matrix has to be
 filtered:
 
-#+begin_src r
+#+begin_src R
 dfFilter <- filterPD(dfHibr)
 #+end_src 
 
 and transformed:
 
-#+begin_src r
+#+begin_src R
 dfTrans <- transformPD(dfFilter)
 #+end_src 
 
 The next figure compares the datasets after and before
 of the transformations:
 
-#+begin_src r
+#+begin_src R
 nZCbefore <- as.data.frame(dfFilter)$nZC
 nZCafter <- as.data.frame(dfTrans)$nZC
 comp <- data.frame(After=nZCafter, Before=nZCbefore)
 #+end_src 
 
-#+begin_src r
+#+begin_src R
 h <- histogram(~After+Before, data=comp,
           scales=list(x=list(relation='free'),
             y=list(relation='free',
@@ -160,7 +167,7 @@ The =filterPD= method is a wrapper for the general
 a group of samples based on a condition and select only certain
 columns. 
 
-#+begin_src r
+#+begin_src R
 dfTransSubset <- subset(dfTrans, 
                         subset=(angle >= 90 & angle <=180), 
                         select=c(energy, W1, nZC))
@@ -176,26 +183,26 @@ tools, such as a scatterplot matrices with hexagonal binning, density
 plots histograms or phase resolved partial discharge patterns, both
 with partial transparency or hexagonal binning.
 
-#+begin_src r
+#+begin_src R
 splom(dfTrans)
 #+end_src  
 
 #+ATTR_HTML: width="480"
 [[file:splomPD.png]]
 
-#+begin_src r
+#+begin_src R
 densityplot(dfTrans)
 #+end_src
   
-#+begin_src r
+#+begin_src R
 histogram(dfTrans)
 #+end_src
   
-#+begin_src r
+#+begin_src R
 xyplot(dfTrans)
 #+end_src  
   
-#+begin_src r
+#+begin_src R
 hexbinplot(dfTrans)
 #+end_src
 
@@ -215,27 +222,27 @@ to denote density of points in a region.
 The results can be easily understood with the density plots of each
 cluster and feature or with the histograms .
 
-#+begin_src r
+#+begin_src R
 dfTransCluster <- claraPD(dfTrans, noise.level=0.7, noise.rm=TRUE)
 #+end_src 
   
-#+begin_src r
+#+begin_src R
 xyplot(dfTransCluster)
 #+end_src  
 
   
-#+begin_src r
+#+begin_src R
 xyplot(dfTransCluster, panelClust=FALSE)
 #+end_src  
 
 #+ATTR_HTML: width="480"
 [[file:clusterScatterPlot.png]]
 
-#+begin_src r
+#+begin_src R
 histogram(dfTransCluster)
 #+end_src
 
-#+begin_src r
+#+begin_src R
 densityplot(dfTransCluster)
 #+end_src
 

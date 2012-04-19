@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>pdCluster: Partial Discharges Clustering</title>
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="title" content="pdCluster: Partial Discharges Clustering"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2011-07-23 07:54:40 CEST"/>
-<meta name="author" content="Oscar Perpinan Lamigueiro"/>
+<meta name="generated" content="2012-04-19 15:00:45 CEST"/>
+<meta name="author" content="Oscar Perpiñán Lamigueiro"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
 <style type="text/css">
@@ -44,6 +44,12 @@ lang="en" xml:lang="en">
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
   textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
@@ -79,28 +85,40 @@ lang="en" xml:lang="en">
 
 </head>
 <body>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">pdCluster: Partial Discharges Clustering</h1>
+
 <p><a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
 defects. This package provides several tools for feature generation,
 exploratory graphical analysis, clustering and variable importance
 quantification for partial discharge signals.
 </p>
 <p>
-The development pages of <code>pdCluster</code> are <a href="https://r-forge.r-project.org/R/?group_id=1101">here</a>. It can be installed with:
-<code>install.packages("pdCluster", repos</code>"<a href="http://R-Forge.R-project.org">http://R-Forge.R-project.org</a>")=. 
-</p>
-<p>
-Along this webpage you will find some examples using some real
-datasets:
+The development pages of <code>pdCluster</code> are <a href="https://r-forge.r-project.org/R/?group_id=1101">here</a>. 
+It can be installed with: 
 </p>
 
 
 
-<pre class="src src-r"><span style="color: #008b8b;">library</span>(pdCluster)
+<pre class="src src-r">install.packages(<span style="color: #8b2252;">"pdCluster"</span>, repos=<span style="color: #8b2252;">"http://R-Forge.R-project.org"</span>)
+install.packages(c(<span style="color: #8b2252;">"hexbin"</span>, <span style="color: #8b2252;">"RColorBrewer"</span>))   
 </pre>
 
+
+<p>
+Along this webpage you will find some examples using some real
+datasets.
+</p>
+
+
+
+<pre class="src src-R"><span style="color: #008b8b;">library</span>(pdCluster)
+</pre>
 
 
 
@@ -108,17 +126,17 @@ datasets:
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 The Prony's method </a></li>
-<li><a href="#sec-2">2 Feature generation </a></li>
-<li><a href="#sec-3">3 Transformations </a></li>
-<li><a href="#sec-4">4 Graphical tools </a></li>
-<li><a href="#sec-5">5 Clustering </a></li>
+<li><a href="#sec-1">1 The Prony's method</a></li>
+<li><a href="#sec-2">2 Feature generation</a></li>
+<li><a href="#sec-3">3 Transformations</a></li>
+<li><a href="#sec-4">4 Graphical tools</a></li>
+<li><a href="#sec-5">5 Clustering</a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> The Prony's method </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> The Prony's method</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -135,9 +153,8 @@ We have a collection of signals in a <code>list</code> named <code>signalList</c
 
 
 
-<pre class="src src-r">load(<span style="color: #8b2252;">'signalList.RData'</span>)
+<pre class="src src-R">load(<span style="color: #8b2252;">'signalList.RData'</span>)
 </pre>
-
 
 
 <p>
@@ -147,9 +164,8 @@ end. The <code>no0</code> function can remove these parts.
 
 
 
-<pre class="src src-r">xyplot(signalList, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
+<pre class="src src-R">xyplot(signalList, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
 </pre>
-
 
 
 <p>
@@ -162,11 +178,10 @@ components.
 
 
 
-<pre class="src src-r">signal <span style="color: #008b8b;">&lt;-</span> signalList[[3]]
+<pre class="src src-R">signal <span style="color: #008b8b;">&lt;-</span> signalList[[3]]
 pr <span style="color: #008b8b;">&lt;-</span> prony(signal, M=10)
 xyplot(pr)
 </pre>
-
 
 
 <p>
@@ -176,9 +191,8 @@ the function <code>compProny</code> allows the comparison of different numbers:
 
 
 
-<pre class="src src-r">compProny(signal, M=c(10, 20, 30, 40))
+<pre class="src src-R">compProny(signal, M=c(10, 20, 30, 40))
 </pre>
-
 
 
 <p>
@@ -189,7 +203,7 @@ the function <code>compProny</code> allows the comparison of different numbers:
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Feature generation </h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> Feature generation</h2>
 <div class="outline-text-2" id="text-2">
 
 
@@ -201,9 +215,8 @@ results for our example signal are:
 
 
 
-<pre class="src src-r">analysis(signal)
+<pre class="src src-R">analysis(signal)
 </pre>
-
 
 
 <p>
@@ -212,10 +225,9 @@ matrix of features:
 </p>
 
 
-<pre class="src src-r">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(signalList[1:10], analysis)
+<pre class="src src-R">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(signalList[1:10], analysis)
 pdData <span style="color: #008b8b;">&lt;-</span> do.call(rbind, analysisList)
 </pre>
-
 
 
 <p>
@@ -225,9 +237,8 @@ another different dataset (named <code>pdSummary</code>, <a href="pdSummary.RDat
 
 
 
-<pre class="src src-r">load(<span style="color: #8b2252;">'pdSummary.RData'</span>)
+<pre class="src src-R">load(<span style="color: #8b2252;">'pdSummary.RData'</span>)
 </pre>
-
 
 
 <p>
@@ -237,13 +248,12 @@ data frames must be reordered by their energy values:
 
 
 
-<pre class="src src-r">idxOrderSummary=order(pdSummary$sumaCuadrados)
+<pre class="src src-R">idxOrderSummary=order(pdSummary$sumaCuadrados)
 idxOrderData=order(pdData$energy)
 
 pdDataOrdered=cbind(pdData[idxOrderData,], 
 pdSummary[idxOrderSummary,c(<span style="color: #8b2252;">'angulo'</span>, <span style="color: #8b2252;">'separacionOriginal'</span>)])
 </pre>
-
 
 
 <p>
@@ -254,10 +264,9 @@ be random.
 
 
 
-<pre class="src src-r">idx <span style="color: #008b8b;">&lt;-</span> do.call(order, pdSummary[idxOrderSummary, c(<span style="color: #8b2252;">'segundo'</span>, <span style="color: #8b2252;">'inicio'</span>)])
+<pre class="src src-R">idx <span style="color: #008b8b;">&lt;-</span> do.call(order, pdSummary[idxOrderSummary, c(<span style="color: #8b2252;">'segundo'</span>, <span style="color: #8b2252;">'inicio'</span>)])
 pdDataOrdered <span style="color: #008b8b;">&lt;-</span> pdDataOrdered[idx,]
 </pre>
-
 
 
 <p>
@@ -268,9 +277,8 @@ We can now construct a <code>PD</code> object. (The
 
 
 
-<pre class="src src-r">pd <span style="color: #008b8b;">&lt;-</span> df2PD(pdDataOrdered)
+<pre class="src src-R">pd <span style="color: #008b8b;">&lt;-</span> df2PD(pdDataOrdered)
 </pre>
-
 
 
 <p>
@@ -279,11 +287,10 @@ The results of <code>analysis</code> to the whole dataset are available <a href=
 
 
 
-<pre class="src src-r">load(<span style="color: #8b2252;">'dfHibr.RData'</span>)
+<pre class="src src-R">load(<span style="color: #8b2252;">'dfHibr.RData'</span>)
 
 dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
 </pre>
-
 
 
 </div>
@@ -291,7 +298,7 @@ dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
 </div>
 
 <div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Transformations </h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Transformations</h2>
 <div class="outline-text-2" id="text-3">
 
 
@@ -302,9 +309,8 @@ filtered:
 
 
 
-<pre class="src src-r">dfFilter <span style="color: #008b8b;">&lt;-</span> filterPD(dfHibr)
+<pre class="src src-R">dfFilter <span style="color: #008b8b;">&lt;-</span> filterPD(dfHibr)
 </pre>
-
 
 
 <p>
@@ -313,9 +319,8 @@ and transformed:
 
 
 
-<pre class="src src-r">dfTrans <span style="color: #008b8b;">&lt;-</span> transformPD(dfFilter)
+<pre class="src src-R">dfTrans <span style="color: #008b8b;">&lt;-</span> transformPD(dfFilter)
 </pre>
-
 
 
 <p>
@@ -325,15 +330,14 @@ of the transformations:
 
 
 
-<pre class="src src-r">nZCbefore <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfFilter)$nZC
+<pre class="src src-R">nZCbefore <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfFilter)$nZC
 nZCafter <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfTrans)$nZC
 comp <span style="color: #008b8b;">&lt;-</span> data.frame(After=nZCafter, Before=nZCbefore)
 </pre>
 
 
 
-
-<pre class="src src-r">h <span style="color: #008b8b;">&lt;-</span> histogram(~After+Before, data=comp,
+<pre class="src src-R">h <span style="color: #008b8b;">&lt;-</span> histogram(~After+Before, data=comp,
           scales=list(x=list(relation=<span style="color: #8b2252;">'free'</span>),
             y=list(relation=<span style="color: #8b2252;">'free'</span>,
               draw=<span style="color: #228b22;">FALSE</span>)),
@@ -342,7 +346,6 @@ comp <span style="color: #008b8b;">&lt;-</span> data.frame(After=nZCafter, Befor
           strip.names=c(<span style="color: #228b22;">TRUE</span>, <span style="color: #228b22;">TRUE</span>), bg=<span style="color: #8b2252;">'gray'</span>, fg=<span style="color: #8b2252;">'darkblue'</span>)
 
 </pre>
-
 
 
 <p>
@@ -357,7 +360,7 @@ columns.
 
 
 
-<pre class="src src-r">dfTransSubset <span style="color: #008b8b;">&lt;-</span> subset(dfTrans, 
+<pre class="src src-R">dfTransSubset <span style="color: #008b8b;">&lt;-</span> subset(dfTrans, 
                         subset=(angle &gt;= 90 &amp; angle &lt;=180), 
                         select=c(energy, W1, nZC))
 
@@ -366,13 +369,12 @@ dfTransSubset
 
 
 
-
 </div>
 
 </div>
 
 <div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Graphical tools </h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Graphical tools</h2>
 <div class="outline-text-2" id="text-4">
 
 
@@ -385,9 +387,8 @@ with partial transparency or hexagonal binning.
 
 
 
-<pre class="src src-r">splom(dfTrans)
+<pre class="src src-R">splom(dfTrans)
 </pre>
-
 
 
 <p>
@@ -396,33 +397,29 @@ with partial transparency or hexagonal binning.
 
 
 
-<pre class="src src-r">densityplot(dfTrans)
+<pre class="src src-R">densityplot(dfTrans)
 </pre>
 
 
 
 
 
-
-<pre class="src src-r">histogram(dfTrans)
+<pre class="src src-R">histogram(dfTrans)
 </pre>
 
 
 
 
 
-
-<pre class="src src-r">xyplot(dfTrans)
+<pre class="src src-R">xyplot(dfTrans)
 </pre>
 
 
 
 
 
-
-<pre class="src src-r">hexbinplot(dfTrans)
+<pre class="src src-R">hexbinplot(dfTrans)
 </pre>
-
 
 
 <p>
@@ -433,7 +430,7 @@ with partial transparency or hexagonal binning.
 </div>
 
 <div id="outline-container-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Clustering </h2>
+<h2 id="sec-5"><span class="section-number-2">5</span> Clustering</h2>
 <div class="outline-text-2" id="text-5">
 
 
@@ -453,7 +450,14 @@ cluster and feature or with the histograms .
 
 
 
-<pre class="src src-r">dfTransCluster <span style="color: #008b8b;">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span style="color: #228b22;">TRUE</span>)
+<pre class="src src-R">dfTransCluster <span style="color: #008b8b;">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span style="color: #228b22;">TRUE</span>)
+</pre>
+
+
+
+
+
+<pre class="src src-R">xyplot(dfTransCluster)
 </pre>
 
 
@@ -461,18 +465,8 @@ cluster and feature or with the histograms .
 
 
 
-<pre class="src src-r">xyplot(dfTransCluster)
+<pre class="src src-R">xyplot(dfTransCluster, panelClust=<span style="color: #228b22;">FALSE</span>)
 </pre>
-
-
-
-
-
-
-
-<pre class="src src-r">xyplot(dfTransCluster, panelClust=<span style="color: #228b22;">FALSE</span>)
-</pre>
-
 
 
 <p>
@@ -481,15 +475,13 @@ cluster and feature or with the histograms .
 
 
 
-<pre class="src src-r">histogram(dfTransCluster)
+<pre class="src src-R">histogram(dfTransCluster)
 </pre>
 
 
 
-
-<pre class="src src-r">densityplot(dfTransCluster)
+<pre class="src src-R">densityplot(dfTransCluster)
 </pre>
-
 
 
 <p>
@@ -500,11 +492,14 @@ cluster and feature or with the histograms .
 
 </div>
 </div>
-<div id="postamble">
-<p class="author">Author: Oscar Perpinan Lamigueiro</p>
-<p class="creator">Org version 7.5 with Emacs version 23</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2012-04-19 15:00:45 CEST</p>
+<p class="author">Author: Oscar Perpiñán Lamigueiro</p>
+<p class="creator">Org version 7.8.02 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 </body>
 </html>
