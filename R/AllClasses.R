@@ -20,6 +20,7 @@ setClass(
          representation=representation(
            angle='numeric',             #vector of angles, degrees
            data='data.frame',           #data
+           key='numeric', ## key or index of each signal.
            refl='logical',##vector
            filtered='logical',##after subset
            filter='call',##which filter I did?

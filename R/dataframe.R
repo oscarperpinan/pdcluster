@@ -1,19 +1,21 @@
 df2PD <- function(x, select=c('RefMax', 'W1', 'W2', 'W3', 'W4', 'range', 'N', 'energy', 'nZC', 'freq1', 'damp1'),
-                  angle='angulo', refl='separacionOriginal', description=''){
+                  angle='angulo', refl='separacionOriginal', key, description=''){
   
-  dt <- x[, select]
-  angle <- x[,angle]
-  refl <- x[,refl]!=0
-  
-  result<-new(Class='PD',
-              angle=x$angulo,
-              data=dt,
-              filtered=FALSE,
-              transformed=FALSE,
-              refl=refl,
-              refl.rm=FALSE,
-              description=description)
-  result
+    dt <- x[, select]
+    angle <- x[,angle]
+    refl <- x[,refl]!=0
+    
+    if (missing(key)) key = seq_len(nrow(x))
+    result<-new(Class = 'PD',
+                angle = angle,
+                data = dt,
+                key = key,
+                filtered = FALSE,
+                transformed = FALSE,
+                refl = refl,
+                refl.rm = FALSE,
+                description = description)
+    result
 
   
 }
@@ -21,17 +23,18 @@ df2PD <- function(x, select=c('RefMax', 'W1', 'W2', 'W3', 'W4', 'range', 'N', 'e
 setGeneric('as.data.frame')#, function(x, ...){standardGeneric('as.data.frame')})
 setMethod('as.data.frame', signature=(x='PD'),
           definition=function(x, ...){
-            df <- x@data
-            df$angle <- x@angle
-            df$refl <- x@refl
-            df
-          }
-          )
+    df <- x@data
+    df$angle <- x@angle
+    df$refl <- x@refl
+    df$key <- x@key
+    df
+}
+)
 
 setMethod('as.data.frame', signature=(x='PDCluster'),
           definition=function(x, ...){
             df <- as.data.frame(as(x, 'PD'))
-            df$cluster <- x@cluster
+            df$cluster <- factor(x@cluster)
             df <- cbind(df, x@dist)
             df
           }
