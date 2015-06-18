@@ -5,7 +5,8 @@
 \alias{claraPD,PD-method}
 \title{Clustering of Partial Discharge signals}
 \description{Clustering of Partial Discharge signals with the clara method}
-\usage{\S4method{claraPD}{PD}(object, vars, nSims=25, nCl=7, metric='manhattan',
+\usage{\S4method{claraPD}{PD}(object, vars, useAngle = TRUE,
+            nSims=25, nCl=7, metric='manhattan',
             noise.level=0.7, noise.rm=TRUE,
             seed=421)
 }
@@ -13,6 +14,8 @@
   \item{object}{A \code{PD} or \code{PDCluster} object.}
   \item{vars}{Character vector with the names of the variables to be
     used.}
+  \item{useAngle}{Logical. If \code{TRUE} the angle variable is included
+  as an additional feature.}
   \item{nSims}{numeric, number of \code{\link{clara}} executions.}
     \item{nCl}{numeric, number of clusters.}
     \item{metric}{character, metric for the \code{\link{clara}}
