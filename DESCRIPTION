@@ -1,8 +1,8 @@
 Package: pdCluster
 Type: Package
 Title: Partial Discharge Clustering
-Version: 0.11
-Date: 2011-07-22
+Version: 0.21
+Date: 2015-06-18
 Encoding: UTF-8
 Author: Oscar Perpiñán Lamigueiro and Miguel Angel Sánchez-Urán
 Maintainer: Oscar Perpiñán Lamigueiro <oscar.perpinan@upm.es>
