@@ -1,4 +1,4 @@
-##import(wmtsa) ##Does not have a NAMESPACE
+import(wmtsa)
 import(cluster)
 import(car)
 
@@ -6,11 +6,9 @@ import(hexbin)
 import(lattice)
 import(latticeExtra)
 import(grid)
+import(wmtsa)
 
 importFrom(mgcv, in.out)##choosePoints()
-#import(classInt)
-#import(alphahull)
-##import(party)
 
 import(methods)
 
@@ -19,7 +17,6 @@ export(
        wavVarPD,
        nZeroCross,
        prony,
-##       outlier,
        analysis,
        xyplot.prony,
        compProny,
@@ -27,9 +24,6 @@ export(
        choosePoints,
        hankel,
        df2PD#,
-       ## panel.ahull,
-       ## panel.ashape
-       ## intervals
        )
 
 exportMethods(filterPD,
