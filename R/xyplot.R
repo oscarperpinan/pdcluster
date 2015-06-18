@@ -22,23 +22,23 @@ setGeneric('xyplot')##, function(x, data,...){standardGeneric('xyplot')})
 
 setMethod('xyplot',
           signature=c(x='PD', data='missing'),
-          definition <- function(x, plot.refl=TRUE, ...){
+          definition <- function(x, plot.refl=TRUE, yvar = 'energy', ...){
             dt=as.data.frame(x)
-            settings <- list(xlab='phase', ylab='energy',
-                                                       xscale.components=angleScale,
+            settings <- list(xlab='phase', ylab=yvar,
+                             xscale.components=angleScale,
                              par.settings=pd.theme, alpha=0.2)
             call <- modifyList(settings, list(...))
             call$data <- dt
             if (x@refl.rm==FALSE & plot.refl==TRUE){ ##muestro los reflejos en paneles separados
               call$strip=strip.custom(strip.names=c(TRUE, TRUE),
                             strip.levels=c(TRUE, TRUE), bg='gray')
-              call$x <- as.formula('energy~angle|refl')
+              call$x <- as.formula(paste(yvar, '~ angle | refl'))
               p <- do.call(xyplot, call)
             } else { ##todo junto
-              call$x <- as.formula('energy~angle')
+              call$x <- as.formula(paste(yvar, '~ angle'))
               p <- do.call(xyplot, call)
             }
-            result <- p+layerRef(dt)+layerGrid 
+            result <- p + layerRef(dt) + layerGrid 
             print(result)
           }
           )
@@ -49,12 +49,13 @@ setMethod('xyplot',
                                  distances, clusters,
                                  plot.refl=TRUE,
                                  panelClust=TRUE,
+                                 yvar = 'energy',
                                  ...
                                  ){
             if (missing(distances)) distances <- seq_along(levels(factor(x@dist$distFactor)))
             if (missing(clusters)) clusters <- seq_along(levels(factor(x@cluster)))
             dt <- as.data.frame(x)
-            settings <- list(xlab='phase', ylab='energy',
+            settings <- list(xlab='phase', ylab=yvar,
                              alpha=0.2,
                              xscale.components=angleScale,
                              auto.key=list(space='right',
@@ -69,7 +70,7 @@ setMethod('xyplot',
                               call$groups=call$data$distFactor
                 call$par.settings <- custom.theme.4
               if (x@refl.rm==FALSE & plot.refl==TRUE){ ##muestro los reflejos en paneles separados
-                call$x <- as.formula('energy~angle|cluster+refl')
+                call$x <- as.formula(paste(yvar, '~ angle | cluster + refl'))
                 px <- do.call(xyplot, call)
                 p <- useOuterStrips(px,
                                     strip=strip.custom(strip.names=c(TRUE, TRUE),
@@ -78,7 +79,7 @@ setMethod('xyplot',
                                       strip.names=c(TRUE, TRUE), bg='gray')
                                     )
               } else { ##todo junto
-                call$x <- as.formula('energy~angle|cluster')
+                call$x <- as.formula(paste(yvar, '~ angle | cluster'))
                 p <- do.call(xyplot, call)
               }  
             } else { ##end of panelClust==TRUE
@@ -86,10 +87,10 @@ setMethod('xyplot',
               call$groups=call$data$cluster
               call$par.settings <- pd.theme
               if (plot.refl & !x@refl.rm){ ##muestro los reflejos en paneles separados
-                call$x <- as.formula('energy~angle|refl')
+                call$x <- as.formula(paste(yvar, '~ angle | refl'))
                 p <- do.call(xyplot, call)
               } else { ##todo junto
-                call$x <- as.formula('energy~angle')
+                call$x <- as.formula(paste(yvar, '~ angle'))
                 p <- do.call(xyplot, call)
               }
             }
