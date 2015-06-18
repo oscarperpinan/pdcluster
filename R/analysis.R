@@ -1,5 +1,5 @@
-analysis <- function(x, ...){
-  x0=no0(x,...)
+analysis <- function(x, threshold = 8e-3, ...){
+  x0=no0(x, threshold = threshold)
   if (length(x0)> 10){    
     wavelet=wavVarPD(x0, ...)[1:4] ##cuatro primeros niveles de varianza wavelet
     max.where=which(x0==max(x0))[1] 

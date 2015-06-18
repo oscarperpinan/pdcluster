@@ -8,12 +8,15 @@ Analysis of partial discharge signals.
 Analysis of partial discharge signals.
 }
 \usage{
-analysis(x, ...)
+analysis(x, threshold = 8e-3, ...)
 }
 
 \arguments{
   \item{x}{numeric, a partial discharge signal.}
-  \item{\dots}{additional arguments for \code{\link{no0}} and \code{\link{wavVarPD}}
+ \item{threshold}{numeric, relative value. The threshold is calculated
+  with the product of this value and the absolute maximum value of
+  \code{x}. See \code{\link{no0}}}
+  \item{\dots}{additional arguments for \code{\link{wavVarPD}}
 }
 }
 \details{
