@@ -6,7 +6,7 @@ Date: 2015-06-18
 Encoding: UTF-8
 Author: Oscar Perpiñán Lamigueiro and Miguel Angel Sánchez-Urán
 Maintainer: Oscar Perpiñán Lamigueiro <oscar.perpinan@upm.es>
-Description: 
+Description: Partial Discharge Clustering
 License: GPL-3
 LazyLoad: yes
 LazyData: yes

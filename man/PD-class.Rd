@@ -23,6 +23,7 @@ Objects can be created by calls of the form \code{df2PD(x, ...)}
     \item{\code{transformed}:}{logical, has been filtered with \code{\link{filterPD-methods}}?}
     \item{\code{refl.rm}:}{logical, TRUE if the reflections were erased
       be \code{\link{filterPD}}}
+    \item{\code{key}:}{Numeric, an index to identify each signal.}
     \item{\code{description}:}{character}
   }
 }

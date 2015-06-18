@@ -12,7 +12,7 @@ df2PD(x,
  "energy", "nZC",
  "freq1", "damp1"),
  angle = "angulo", refl = "separacionOriginal",
- description = "")
+ key, description = "")
 }
 
 \arguments{
@@ -29,6 +29,8 @@ character, columns of the \code{data.frame} to be selected.
   signal from its original. It the value in this column is 0, the signal
   is regarded as the original one.
 }
+\item{key}{Numeric, an index to identify each signal. If missing, the
+  row number is used instead.}
   \item{description}{character}
 }
 
