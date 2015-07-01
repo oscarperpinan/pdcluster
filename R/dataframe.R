@@ -67,7 +67,7 @@ setMethod('addVars',
           signature(object = 'PD', vars = 'data.frame'),
           definition = function(object, vars, vars.key){
               if (missing(vars.key)) vars.key <- seq_len(nrow(vars))
-              idx <- match(vars.key, object@key)
+              idx <- match(vars.key, object@key, nomatch = 0)
               vars2Merge <- as.data.frame(vars[idx,])
               names(vars2Merge) <- names(vars) 
               object@data <- cbind(object@data, vars2Merge)
