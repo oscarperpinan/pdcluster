@@ -10,17 +10,6 @@ setMethod('claraPD',
     dt <- object@data
     ##Include angle as another feature for clara
     if (isTRUE(useAngle)) dt$angle <- object@angle 
-    if (missing(vars)){
-        notInVars <- FALSE
-    } else {
-        dt <- dt[vars]
-        if (!('energy' %in% vars)){##energy must be in the output
-            energy <- object@data$energy
-            notInVars <- TRUE
-        } else {
-            notInVars <- FALSE
-        }
-    }
     ## Preparo matrices
     set.seed(seed)              # (reproducibility)
     cl <- matrix(NA, nrow(dt), nSims)
@@ -55,7 +44,8 @@ setMethod('claraPD',
                          distRel=distRel,
                          distFactor=distFactor)
     ##Entrego resultados
-    if (notInVars) dt$energy <- energy
+    if (!('energy' %in% names(dt))) ##energy must be in the output
+            dt$energy <- object@data$energy
     
     if(noise.rm){
         object@angle <- object@angle[!noise]

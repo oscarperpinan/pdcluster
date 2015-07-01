@@ -59,3 +59,18 @@ setMethod('PD2Long', signature=(object='PDCluster'),
             long
           }
 )
+
+##
+setGeneric('addVars', function(object, vars, ...){standardGeneric('addVars')})
+
+setMethod('addVars',
+          signature(object = 'PD', vars = 'data.frame'),
+          definition = function(object, vars, vars.key){
+              if (missing(vars.key)) vars.key <- seq_len(nrow(vars))
+              idx <- match(vars.key, object@key)
+              vars2Merge <- as.data.frame(vars[idx,])
+              names(vars2Merge) <- names(vars) 
+              object@data <- cbind(object@data, vars2Merge)
+              object
+          })
+              

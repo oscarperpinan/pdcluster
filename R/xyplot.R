@@ -1,10 +1,12 @@
-layerRef <- function(object){
-  layer({
-    centro <- median(energy)
-    amplitud <-1.5*IQR(energy)
+pdPanel <- function(..., yvar){
+    panel.xyplot(...)
+    centro <- median(yvar)
+    amplitud <-1.5*IQR(yvar)
     ang <- seq(0, 360, 5)
-    panel.xyplot(ang, amplitud*sin(ang*pi/180)+centro, type='l', col.line='gray50', lwd=1.4)
-  }, data=object)
+    panel.xyplot(ang, amplitud * sin(ang * pi/180) + centro,
+                 type = 'l', col.line = 'gray50', lwd = 1.4)
+    panel.refline(v=c(0, 90,180, 270, 360))
+    panel.grid(h=-1, v=0)
 }
 
 angleScale <- function(...){
@@ -16,7 +18,7 @@ angleScale <- function(...){
   ans
 }
 
-layerGrid <- layer(panel.refline(v=c(0, 90,180, 270,360))) + layer(panel.grid(h=-1, v=0))
+
 
 setGeneric('xyplot')##, function(x, data,...){standardGeneric('xyplot')})
 
@@ -38,8 +40,9 @@ setMethod('xyplot',
               call$x <- as.formula(paste(yvar, '~ angle'))
               p <- do.call(xyplot, call)
             }
-            result <- p + layerRef(dt) + layerGrid 
-            print(result)
+            p$panel <- pdPanel
+            for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
+            print(p)
           }
           )
 
@@ -94,7 +97,8 @@ setMethod('xyplot',
                 p <- do.call(xyplot, call)
               }
             }
-            result <- p + layerRef(call$data) + layerGrid
-            print(result)
+            p$panel <- pdPanel
+            for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
+            print(p)
           }
           )

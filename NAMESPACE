@@ -39,6 +39,7 @@ exportMethods(filterPD,
               identifyPD,
               as.data.frame,
               PD2Long,
+              addVars,
               show
              )
 
