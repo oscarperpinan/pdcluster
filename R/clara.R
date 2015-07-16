@@ -39,7 +39,10 @@ setMethod('claraPD',
     distRel <- ave(distMedoid, fuzzyCl,
                    FUN=function(x)1-x/max(x)) ##distancia relativa por cluster
     distFactor <- ave(distRel,  fuzzyCl,
-                      FUN=function(x)cut(x, quantile(x, seq(0.1, 1, .1))))
+                      FUN = function(x){
+                          brks <- quantile(x, seq(0.1, 1, 0.1))
+                          cut(x, unique(brks))
+                      })
     distDF <- data.frame(dist=distMedoid,
                          distRel=distRel,
                          distFactor=distFactor)
