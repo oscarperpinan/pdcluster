@@ -8,7 +8,7 @@ Analysis of partial discharge signals.
 Analysis of partial discharge signals.
 }
 \usage{
-analysis(x, threshold = 8e-3, ...)
+analysis(x, threshold = 8e-3, n.levels = 4, ...)
 }
 
 \arguments{
@@ -16,6 +16,7 @@ analysis(x, threshold = 8e-3, ...)
  \item{threshold}{numeric, relative value. The threshold is calculated
   with the product of this value and the absolute maximum value of
   \code{x}. See \code{\link{no0}}}
+\item{n.levels}{numeric, number of wavelet levels}
   \item{\dots}{additional arguments for \code{\link{wavVarPD}}
 }
 }
@@ -27,7 +28,7 @@ Prony's method (\code{\link{prony}}).
 }
 \value{A \code{data.frame} with:
   \item{RefMax}{Maximum location.}
-  \item{W1, W2, W3 and W4}{Wavelet variances of the first 4 levels.}
+  \item{W1, W2, ...}{Wavelet variances of the first \code{n.levels} levels.}
   \item{range}{Range of the signal.}
   \item{N}{Number of samples of the signal.}
   \item{energy}{Energy of the signal calculated as the sum of the
