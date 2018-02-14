@@ -1,66 +1,210 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
+<!-- 2018-02-14 mié 21:37 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>pdCluster: Partial Discharges Clustering</title>
-<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
-<meta name="title" content="pdCluster: Partial Discharges Clustering"/>
-<meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-04-19 15:00:45 CEST"/>
-<meta name="author" content="Oscar Perpiñán Lamigueiro"/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Oscar Perpiñán Lamigueiro" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
-  html { font-family: Times, serif; font-size: 12pt; }
-  .title  { text-align: center; }
-  .todo   { color: red; }
-  .done   { color: green; }
-  .tag    { background-color: #add8e6; font-weight:normal }
-  .target { }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
-  p.verse { margin-left: 3% }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
   pre {
-	border: 1pt solid #AEBDCC;
-	background-color: #F3F5F7;
-	padding: 5pt;
-	font-family: courier, monospace;
-        font-size: 90%;
-        overflow:auto;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
   }
-  table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
   dt { font-weight: bold; }
-  div.figure { padding: 0.5em; }
-  div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
     background: #ffffcc;
   }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
   textarea { overflow-x: auto; }
-  .linenr { font-size:smaller }
-  .code-highlighted {background-color:#ffff00;}
-  .org-info-js_info-navigation { border-style:none; }
-  #org-info-js_console-label { font-size:10px; font-weight:bold;
-                               white-space:nowrap; }
-  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
-                                 font-weight:bold; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
 <script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
  function CodeHighlightOn(elem, id)
  {
@@ -82,179 +226,184 @@
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
 
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
 <h1 class="title">pdCluster: Partial Discharges Clustering</h1>
-
-<p><a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8b04b54">1. The Prony&rsquo;s method</a></li>
+<li><a href="#orgb0bdbae">2. Feature generation</a></li>
+<li><a href="#orgf196540">3. Transformations</a></li>
+<li><a href="#orgf69555a">4. Graphical tools</a></li>
+<li><a href="#orgd35fc1a">5. Clustering</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
 defects. This package provides several tools for feature generation,
 exploratory graphical analysis, clustering and variable importance
 quantification for partial discharge signals.
 </p>
+
 <p>
-The development pages of <code>pdCluster</code> are <a href="https://r-forge.r-project.org/R/?group_id=1101">here</a>. 
+The development pages of <code>pdCluster</code> are <a href="https://github.com/oscarperpinan/pdcluster">here</a>. 
 It can be installed with: 
 </p>
 
-
-
-<pre class="src src-r">install.packages(<span style="color: #8b2252;">"pdCluster"</span>, repos=<span style="color: #8b2252;">"http://R-Forge.R-project.org"</span>)
-install.packages(c(<span style="color: #8b2252;">"hexbin"</span>, <span style="color: #8b2252;">"RColorBrewer"</span>))   
+<div class="org-src-container">
+<pre class="src src-r">remotes::install_github(<span class="org-string">"oscarperpinan/pdcluster"</span>)
 </pre>
-
+</div>
 
 <p>
 Along this webpage you will find some examples using some real
 datasets.
 </p>
 
-
-
-<pre class="src src-R"><span style="color: #008b8b;">library</span>(pdCluster)
+<div class="org-src-container">
+<pre class="src src-R"><span class="org-constant">library</span>(pdCluster)
 </pre>
-
-
-
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1 The Prony's method</a></li>
-<li><a href="#sec-2">2 Feature generation</a></li>
-<li><a href="#sec-3">3 Transformations</a></li>
-<li><a href="#sec-4">4 Graphical tools</a></li>
-<li><a href="#sec-5">5 Clustering</a></li>
-</ul>
-</div>
 </div>
 
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> The Prony's method</h2>
+<div id="outline-container-org8b04b54" class="outline-2">
+<h2 id="org8b04b54"><span class="section-number-2">1</span> The Prony&rsquo;s method</h2>
 <div class="outline-text-2" id="text-1">
-
-
 <p>
 A clean partial discharge signal can be regarded as a finite combination of
 damped complex exponentials. Under this assumption, the so-called
-Prony's method allows for the estimation of frequency, amplitude,
+Prony&rsquo;s method allows for the estimation of frequency, amplitude,
 phase and damping components of the signal.
 </p>
+
 <p>
 We have a collection of signals in a <code>list</code> named <code>signalList</code>
 (<a href="signalList.RData">download</a>). 
 </p>
 
-
-
-<pre class="src src-R">load(<span style="color: #8b2252;">'signalList.RData'</span>)
+<div class="org-src-container">
+<pre class="src src-R">load(<span class="org-string">'signalList.RData'</span>)
 </pre>
-
+</div>
 
 <p>
 The signals contain zeros at the beginning and at the
 end. The <code>no0</code> function can remove these parts.
 </p>
 
-
-
-<pre class="src src-R">xyplot(signalList, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
+<div class="org-src-container">
+<pre class="src src-R">xyplot(signalList, y.same=<span class="org-type">NA</span>, FUN=<span class="org-keyword">function</span>(x){xyplot(ts(no0(x)))})
 </pre>
+</div>
 
 
-<p>
-<img src="prony2.png" width="480" alt="prony2.png" />
+<div class="figure">
+<p><img src="prony2.png" alt="prony2.png" />
 </p>
+</div>
+
 <p>
-With these cleaned signals the Prony's method can provide their
+With these cleaned signals the Prony&rsquo;s method can provide their
 components. 
 </p>
 
-
-
-<pre class="src src-R">signal <span style="color: #008b8b;">&lt;-</span> signalList[[3]]
-pr <span style="color: #008b8b;">&lt;-</span> prony(signal, M=10)
+<div class="org-src-container">
+<pre class="src src-R">signal <span class="org-constant">&lt;-</span> signalList[[3]]
+pr <span class="org-constant">&lt;-</span> prony(signal, M=10)
 xyplot(pr)
 </pre>
-
+</div>
 
 <p>
 Since the number of components must be fixed \a priori\,
 the function <code>compProny</code> allows the comparison of different numbers:
 </p>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">compProny(signal, M=c(10, 20, 30, 40))
 </pre>
+</div>
 
 
-<p>
-<img src="prony.png" width="480" alt="prony.png" />
+<div class="figure">
+<p><img src="prony.png" alt="prony.png" />
 </p>
 </div>
-
+</div>
 </div>
 
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Feature generation</h2>
+<div id="outline-container-orgb0bdbae" class="outline-2">
+<h2 id="orgb0bdbae"><span class="section-number-2">2</span> Feature generation</h2>
 <div class="outline-text-2" id="text-2">
-
-
 <p>
 <code>pdCluster</code> includes several functions for feature
 generation. The <code>analysis</code> function comprises all of them. The
 results for our example signal are:
 </p>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">analysis(signal)
 </pre>
-
+</div>
 
 <p>
 This function can be used with a list of signals in order to obtain a
 matrix of features:
 </p>
-
-
-<pre class="src src-R">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(signalList[1:10], analysis)
-pdData <span style="color: #008b8b;">&lt;-</span> do.call(rbind, analysisList)
+<div class="org-src-container">
+<pre class="src src-R">analysisList <span class="org-constant">&lt;-</span> lapply(signalList[1:10], analysis)
+pdData <span class="org-constant">&lt;-</span> do.call(rbind, analysisList)
 </pre>
-
+</div>
 
 <p>
 Now we need the angle and reflection information, available from
 another different dataset (named <code>pdSummary</code>, <a href="pdSummary.RData">download</a>). 
 </p>
 
-
-
-<pre class="src src-R">load(<span style="color: #8b2252;">'pdSummary.RData'</span>)
+<div class="org-src-container">
+<pre class="src src-R">load(<span class="org-string">'pdSummary.RData'</span>)
 </pre>
-
+</div>
 
 <p>
 In order to safely share the information, both
 data frames must be reordered by their energy values: 
 </p>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">idxOrderSummary=order(pdSummary$sumaCuadrados)
 idxOrderData=order(pdData$energy)
 
 pdDataOrdered=cbind(pdData[idxOrderData,], 
-pdSummary[idxOrderSummary,c(<span style="color: #8b2252;">'angulo'</span>, <span style="color: #8b2252;">'separacionOriginal'</span>)])
+pdSummary[idxOrderSummary,c(<span class="org-string">'angulo'</span>, <span class="org-string">'separacionOriginal'</span>)])
 </pre>
-
+</div>
 
 <p>
 Later, the data frame to be used with the clustering algorithm has to
@@ -262,12 +411,11 @@ ordered by time. Thus the samples of the <code>clara</code> method will
 be random.
 </p>
 
-
-
-<pre class="src src-R">idx <span style="color: #008b8b;">&lt;-</span> do.call(order, pdSummary[idxOrderSummary, c(<span style="color: #8b2252;">'segundo'</span>, <span style="color: #8b2252;">'inicio'</span>)])
-pdDataOrdered <span style="color: #008b8b;">&lt;-</span> pdDataOrdered[idx,]
+<div class="org-src-container">
+<pre class="src src-R">idx <span class="org-constant">&lt;-</span> do.call(order, pdSummary[idxOrderSummary, c(<span class="org-string">'segundo'</span>, <span class="org-string">'inicio'</span>)])
+pdDataOrdered <span class="org-constant">&lt;-</span> pdDataOrdered[idx,]
 </pre>
-
+</div>
 
 <p>
 We can now construct a <code>PD</code> object. (The
@@ -275,109 +423,81 @@ We can now construct a <code>PD</code> object. (The
   methods. Two classes have been defined: <code>PD</code> and <code>PDCluster</code>).
 </p>
 
-
-
-<pre class="src src-R">pd <span style="color: #008b8b;">&lt;-</span> df2PD(pdDataOrdered)
+<div class="org-src-container">
+<pre class="src src-R">pd <span class="org-constant">&lt;-</span> df2PD(pdDataOrdered)
 </pre>
-
+</div>
 
 <p>
 The results of <code>analysis</code> to the whole dataset are available <a href="dfHibr.RData">here</a>.
 </p>
 
+<div class="org-src-container">
+<pre class="src src-R">load(<span class="org-string">'dfHibr.RData'</span>)
 
-
-<pre class="src src-R">load(<span style="color: #8b2252;">'dfHibr.RData'</span>)
-
-dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
+dfHibr <span class="org-constant">&lt;-</span> df2PD(dfHibr)
 </pre>
-
-
+</div>
+</div>
 </div>
 
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Transformations</h2>
+<div id="outline-container-orgf196540" class="outline-2">
+<h2 id="orgf196540"><span class="section-number-2">3</span> Transformations</h2>
 <div class="outline-text-2" id="text-3">
-
-
 <p>
 Prior to the clustering algorithm, the feature matrix has to be
 filtered:
 </p>
 
-
-
-<pre class="src src-R">dfFilter <span style="color: #008b8b;">&lt;-</span> filterPD(dfHibr)
+<div class="org-src-container">
+<pre class="src src-R">dfFilter <span class="org-constant">&lt;-</span> filterPD(dfHibr)
 </pre>
-
+</div>
 
 <p>
 and transformed:
 </p>
 
-
-
-<pre class="src src-R">dfTrans <span style="color: #008b8b;">&lt;-</span> transformPD(dfFilter)
+<div class="org-src-container">
+<pre class="src src-R">dfTrans <span class="org-constant">&lt;-</span> transformPD(dfFilter)
 </pre>
-
+</div>
 
 <p>
 The next figure compares the datasets after and before
 of the transformations:
 </p>
 
-
-
-<pre class="src src-R">nZCbefore <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfFilter)$nZC
-nZCafter <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfTrans)$nZC
-comp <span style="color: #008b8b;">&lt;-</span> data.frame(After=nZCafter, Before=nZCbefore)
+<div class="org-src-container">
+<pre class="src src-R">nZCbefore <span class="org-constant">&lt;-</span> as.data.frame(dfFilter)$nZC
+nZCafter <span class="org-constant">&lt;-</span> as.data.frame(dfTrans)$nZC
+comp <span class="org-constant">&lt;-</span> data.frame(After=nZCafter, Before=nZCbefore)
 </pre>
-
-
-
-<pre class="src src-R">h <span style="color: #008b8b;">&lt;-</span> histogram(~After+Before, data=comp,
-          scales=list(x=list(relation=<span style="color: #8b2252;">'free'</span>),
-            y=list(relation=<span style="color: #8b2252;">'free'</span>,
-              draw=<span style="color: #228b22;">FALSE</span>)),
-          breaks=100, col=<span style="color: #8b2252;">'gray'</span>,
-          xlab=<span style="color: #8b2252;">''</span>,
-          strip.names=c(<span style="color: #228b22;">TRUE</span>, <span style="color: #228b22;">TRUE</span>), bg=<span style="color: #8b2252;">'gray'</span>, fg=<span style="color: #8b2252;">'darkblue'</span>)
-
-</pre>
-
-
-<p>
-<img src="BoxCox.png" width="480" alt="BoxCox.png" />
-</p>
-<p>
-The <code>filterPD</code> method is a wrapper for the general
-<code>subset</code> method. With <code>subset</code> it is possible to extract
-a group of samples based on a condition and select only certain
-columns. 
-</p>
-
-
-
-<pre class="src src-R">dfTransSubset <span style="color: #008b8b;">&lt;-</span> subset(dfTrans, 
-                        subset=(angle &gt;= 90 &amp; angle &lt;=180), 
-                        select=c(energy, W1, nZC))
-
-dfTransSubset
-</pre>
-
-
-
 </div>
 
+<div class="org-src-container">
+<pre class="src src-R">histogram(~After+Before, data=comp,
+          scales=list(x=list(relation=<span class="org-string">'free'</span>),
+                      y=list(relation=<span class="org-string">'free'</span>,
+                             draw=<span class="org-type">FALSE</span>)),
+          breaks=100, col=<span class="org-string">'gray'</span>,
+          xlab=<span class="org-string">''</span>,
+          strip.names=c(<span class="org-type">TRUE</span>, <span class="org-type">TRUE</span>), bg=<span class="org-string">'gray'</span>, fg=<span class="org-string">'darkblue'</span>)
+
+</pre>
 </div>
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Graphical tools</h2>
+
+<div class="figure">
+<p><img src="BoxCox.png" alt="BoxCox.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf69555a" class="outline-2">
+<h2 id="orgf69555a"><span class="section-number-2">4</span> Graphical tools</h2>
 <div class="outline-text-2" id="text-4">
-
-
 <p>
 The <code>pdCluster</code> packages includes a set of graphical exploratory
 tools, such as a scatterplot matrices with hexagonal binning, density
@@ -385,55 +505,48 @@ plots histograms or phase resolved partial discharge patterns, both
 with partial transparency or hexagonal binning.
 </p>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">splom(dfTrans)
 </pre>
+</div>
 
 
-<p>
-<img src="splomPD.png" width="480" alt="splomPD.png" />
+<div class="figure">
+<p><img src="splomPD.png" alt="splomPD.png" />
 </p>
+</div>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">densityplot(dfTrans)
 </pre>
+</div>
 
-
-
-
-
+<div class="org-src-container">
 <pre class="src src-R">histogram(dfTrans)
 </pre>
+</div>
 
-
-
-
-
+<div class="org-src-container">
 <pre class="src src-R">xyplot(dfTrans)
 </pre>
+</div>
 
-
-
-
-
+<div class="org-src-container">
 <pre class="src src-R">hexbinplot(dfTrans)
 </pre>
+</div>
 
 
-<p>
-<img src="hexbinPD.png" width="480" alt="hexbinPD.png" />
+<div class="figure">
+<p><img src="hexbinPD.png" alt="hexbinPD.png" />
 </p>
 </div>
-
+</div>
 </div>
 
-<div id="outline-container-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Clustering</h2>
+<div id="outline-container-orgd35fc1a" class="outline-2">
+<h2 id="orgd35fc1a"><span class="section-number-2">5</span> Clustering</h2>
 <div class="outline-text-2" id="text-5">
-
-
 <p>
 The filtered and transformed object can now be used with the
 clustering algorithm. The results are displayed with a phase resolved
@@ -443,63 +556,56 @@ displays the same pattern with superposed clusters. Here the colors
 encode the membership to a certain cluster, and transparency is used
 to denote density of points in a region.
 </p>
+
 <p>
 The results can be easily understood with the density plots of each
 cluster and feature or with the histograms .
 </p>
 
-
-
-<pre class="src src-R">dfTransCluster <span style="color: #008b8b;">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span style="color: #228b22;">TRUE</span>)
+<div class="org-src-container">
+<pre class="src src-R">dfTransCluster <span class="org-constant">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span class="org-type">TRUE</span>)
 </pre>
+</div>
 
-
-
-
-
+<div class="org-src-container">
 <pre class="src src-R">xyplot(dfTransCluster)
 </pre>
+</div>
 
 
-
-
-
-
-<pre class="src src-R">xyplot(dfTransCluster, panelClust=<span style="color: #228b22;">FALSE</span>)
+<div class="org-src-container">
+<pre class="src src-R">xyplot(dfTransCluster, panelClust=<span class="org-type">FALSE</span>)
 </pre>
+</div>
 
 
-<p>
-<img src="clusterScatterPlot.png" width="480" alt="clusterScatterPlot.png" />
+<div class="figure">
+<p><img src="clusterScatterPlot.png" alt="clusterScatterPlot.png" />
 </p>
+</div>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">histogram(dfTransCluster)
 </pre>
+</div>
 
-
-
+<div class="org-src-container">
 <pre class="src src-R">densityplot(dfTransCluster)
 </pre>
+</div>
 
 
-<p>
-<img src="clusterDensity.png" width="480" alt="clusterDensity.png" />
+<div class="figure">
+<p><img src="clusterDensity.png" alt="clusterDensity.png" />
 </p>
-
-
-
 </div>
 </div>
 </div>
-
-<div id="postamble">
-<p class="date">Date: 2012-04-19 15:00:45 CEST</p>
+</div>
+<div id="postamble" class="status">
 <p class="author">Author: Oscar Perpiñán Lamigueiro</p>
-<p class="creator">Org version 7.8.02 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date">Created: 2018-02-14 mié 21:37</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
