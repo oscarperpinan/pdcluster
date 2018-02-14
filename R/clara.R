@@ -53,6 +53,7 @@ setMethod('claraPD',
     if(noise.rm){
         object@angle <- object@angle[!noise]
         object@refl <- object@refl[!noise]
+        object@key <- object@key[!noise]
         dt <- dt[!noise,]
         fuzzyCl <- fuzzyCl[!noise]
         distDF <- distDF[!noise,]

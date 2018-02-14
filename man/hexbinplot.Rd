@@ -8,8 +8,9 @@
 \description{Hexbinplot for \code{PD} and \code{PDCluster} classes.
 }
 \usage{
-\S4method{hexbinplot}{PD,missing}(x, plot.refl=TRUE, \dots)
-\S4method{hexbinplot}{PDCluster,missing}(x, clusters, panelClust=TRUE, plot.refl=TRUE, \dots)
+\S4method{hexbinplot}{PD,missing}(x, plot.refl=TRUE, yvar = 'energy', \dots)
+\S4method{hexbinplot}{PDCluster,missing}(x, clusters, panelClust=TRUE,
+plot.refl=TRUE, yvar = 'energy', \dots)
 }
 
 \arguments{
@@ -19,6 +20,7 @@
     panel.}
   \item{plot.refl}{logical, should be the reflections be drawn
     in separate panels?}
+  \item{yvar}{character, name of the variable (or an expression) to use in the y-axis}
   \item{\dots}{Additional arguments for \code{hexbinplot}.}
 
 }

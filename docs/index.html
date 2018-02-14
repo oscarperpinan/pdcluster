@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>pdCluster: Partial Discharges Clustering</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="title" content="pdCluster: Partial Discharges Clustering"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-04-19 15:00:45 CEST"/>
+<meta name="author" content="Oscar Perpiñán Lamigueiro"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">pdCluster: Partial Discharges Clustering</h1>
+
+<p><a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
+defects. This package provides several tools for feature generation,
+exploratory graphical analysis, clustering and variable importance
+quantification for partial discharge signals.
+</p>
+<p>
+The development pages of <code>pdCluster</code> are <a href="https://r-forge.r-project.org/R/?group_id=1101">here</a>. 
+It can be installed with: 
+</p>
+
+
+
+<pre class="src src-r">install.packages(<span style="color: #8b2252;">"pdCluster"</span>, repos=<span style="color: #8b2252;">"http://R-Forge.R-project.org"</span>)
+install.packages(c(<span style="color: #8b2252;">"hexbin"</span>, <span style="color: #8b2252;">"RColorBrewer"</span>))   
+</pre>
+
+
+<p>
+Along this webpage you will find some examples using some real
+datasets.
+</p>
+
+
+
+<pre class="src src-R"><span style="color: #008b8b;">library</span>(pdCluster)
+</pre>
+
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 The Prony's method</a></li>
+<li><a href="#sec-2">2 Feature generation</a></li>
+<li><a href="#sec-3">3 Transformations</a></li>
+<li><a href="#sec-4">4 Graphical tools</a></li>
+<li><a href="#sec-5">5 Clustering</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> The Prony's method</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+A clean partial discharge signal can be regarded as a finite combination of
+damped complex exponentials. Under this assumption, the so-called
+Prony's method allows for the estimation of frequency, amplitude,
+phase and damping components of the signal.
+</p>
+<p>
+We have a collection of signals in a <code>list</code> named <code>signalList</code>
+(<a href="signalList.RData">download</a>). 
+</p>
+
+
+
+<pre class="src src-R">load(<span style="color: #8b2252;">'signalList.RData'</span>)
+</pre>
+
+
+<p>
+The signals contain zeros at the beginning and at the
+end. The <code>no0</code> function can remove these parts.
+</p>
+
+
+
+<pre class="src src-R">xyplot(signalList, y.same=<span style="color: #228b22;">NA</span>, FUN=<span style="color: #a020f0;">function</span>(x){xyplot(ts(no0(x)))})
+</pre>
+
+
+<p>
+<img src="prony2.png" width="480" alt="prony2.png" />
+</p>
+<p>
+With these cleaned signals the Prony's method can provide their
+components. 
+</p>
+
+
+
+<pre class="src src-R">signal <span style="color: #008b8b;">&lt;-</span> signalList[[3]]
+pr <span style="color: #008b8b;">&lt;-</span> prony(signal, M=10)
+xyplot(pr)
+</pre>
+
+
+<p>
+Since the number of components must be fixed \a priori\,
+the function <code>compProny</code> allows the comparison of different numbers:
+</p>
+
+
+
+<pre class="src src-R">compProny(signal, M=c(10, 20, 30, 40))
+</pre>
+
+
+<p>
+<img src="prony.png" width="480" alt="prony.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Feature generation</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+<code>pdCluster</code> includes several functions for feature
+generation. The <code>analysis</code> function comprises all of them. The
+results for our example signal are:
+</p>
+
+
+
+<pre class="src src-R">analysis(signal)
+</pre>
+
+
+<p>
+This function can be used with a list of signals in order to obtain a
+matrix of features:
+</p>
+
+
+<pre class="src src-R">analysisList <span style="color: #008b8b;">&lt;-</span> lapply(signalList[1:10], analysis)
+pdData <span style="color: #008b8b;">&lt;-</span> do.call(rbind, analysisList)
+</pre>
+
+
+<p>
+Now we need the angle and reflection information, available from
+another different dataset (named <code>pdSummary</code>, <a href="pdSummary.RData">download</a>). 
+</p>
+
+
+
+<pre class="src src-R">load(<span style="color: #8b2252;">'pdSummary.RData'</span>)
+</pre>
+
+
+<p>
+In order to safely share the information, both
+data frames must be reordered by their energy values: 
+</p>
+
+
+
+<pre class="src src-R">idxOrderSummary=order(pdSummary$sumaCuadrados)
+idxOrderData=order(pdData$energy)
+
+pdDataOrdered=cbind(pdData[idxOrderData,], 
+pdSummary[idxOrderSummary,c(<span style="color: #8b2252;">'angulo'</span>, <span style="color: #8b2252;">'separacionOriginal'</span>)])
+</pre>
+
+
+<p>
+Later, the data frame to be used with the clustering algorithm has to
+ordered by time. Thus the samples of the <code>clara</code> method will
+be random.
+</p>
+
+
+
+<pre class="src src-R">idx <span style="color: #008b8b;">&lt;-</span> do.call(order, pdSummary[idxOrderSummary, c(<span style="color: #8b2252;">'segundo'</span>, <span style="color: #8b2252;">'inicio'</span>)])
+pdDataOrdered <span style="color: #008b8b;">&lt;-</span> pdDataOrdered[idx,]
+</pre>
+
+
+<p>
+We can now construct a <code>PD</code> object. (The
+  <code>pdCluster</code> package is designed with S4 classes and
+  methods. Two classes have been defined: <code>PD</code> and <code>PDCluster</code>).
+</p>
+
+
+
+<pre class="src src-R">pd <span style="color: #008b8b;">&lt;-</span> df2PD(pdDataOrdered)
+</pre>
+
+
+<p>
+The results of <code>analysis</code> to the whole dataset are available <a href="dfHibr.RData">here</a>.
+</p>
+
+
+
+<pre class="src src-R">load(<span style="color: #8b2252;">'dfHibr.RData'</span>)
+
+dfHibr <span style="color: #008b8b;">&lt;-</span> df2PD(dfHibr)
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Transformations</h2>
+<div class="outline-text-2" id="text-3">
+
+
+<p>
+Prior to the clustering algorithm, the feature matrix has to be
+filtered:
+</p>
+
+
+
+<pre class="src src-R">dfFilter <span style="color: #008b8b;">&lt;-</span> filterPD(dfHibr)
+</pre>
+
+
+<p>
+and transformed:
+</p>
+
+
+
+<pre class="src src-R">dfTrans <span style="color: #008b8b;">&lt;-</span> transformPD(dfFilter)
+</pre>
+
+
+<p>
+The next figure compares the datasets after and before
+of the transformations:
+</p>
+
+
+
+<pre class="src src-R">nZCbefore <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfFilter)$nZC
+nZCafter <span style="color: #008b8b;">&lt;-</span> as.data.frame(dfTrans)$nZC
+comp <span style="color: #008b8b;">&lt;-</span> data.frame(After=nZCafter, Before=nZCbefore)
+</pre>
+
+
+
+<pre class="src src-R">h <span style="color: #008b8b;">&lt;-</span> histogram(~After+Before, data=comp,
+          scales=list(x=list(relation=<span style="color: #8b2252;">'free'</span>),
+            y=list(relation=<span style="color: #8b2252;">'free'</span>,
+              draw=<span style="color: #228b22;">FALSE</span>)),
+          breaks=100, col=<span style="color: #8b2252;">'gray'</span>,
+          xlab=<span style="color: #8b2252;">''</span>,
+          strip.names=c(<span style="color: #228b22;">TRUE</span>, <span style="color: #228b22;">TRUE</span>), bg=<span style="color: #8b2252;">'gray'</span>, fg=<span style="color: #8b2252;">'darkblue'</span>)
+
+</pre>
+
+
+<p>
+<img src="BoxCox.png" width="480" alt="BoxCox.png" />
+</p>
+<p>
+The <code>filterPD</code> method is a wrapper for the general
+<code>subset</code> method. With <code>subset</code> it is possible to extract
+a group of samples based on a condition and select only certain
+columns. 
+</p>
+
+
+
+<pre class="src src-R">dfTransSubset <span style="color: #008b8b;">&lt;-</span> subset(dfTrans, 
+                        subset=(angle &gt;= 90 &amp; angle &lt;=180), 
+                        select=c(energy, W1, nZC))
+
+dfTransSubset
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Graphical tools</h2>
+<div class="outline-text-2" id="text-4">
+
+
+<p>
+The <code>pdCluster</code> packages includes a set of graphical exploratory
+tools, such as a scatterplot matrices with hexagonal binning, density
+plots histograms or phase resolved partial discharge patterns, both
+with partial transparency or hexagonal binning.
+</p>
+
+
+
+<pre class="src src-R">splom(dfTrans)
+</pre>
+
+
+<p>
+<img src="splomPD.png" width="480" alt="splomPD.png" />
+</p>
+
+
+
+<pre class="src src-R">densityplot(dfTrans)
+</pre>
+
+
+
+
+
+<pre class="src src-R">histogram(dfTrans)
+</pre>
+
+
+
+
+
+<pre class="src src-R">xyplot(dfTrans)
+</pre>
+
+
+
+
+
+<pre class="src src-R">hexbinplot(dfTrans)
+</pre>
+
+
+<p>
+<img src="hexbinPD.png" width="480" alt="hexbinPD.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Clustering</h2>
+<div class="outline-text-2" id="text-5">
+
+
+<p>
+The filtered and transformed object can now be used with the
+clustering algorithm. The results are displayed with a phase resolved
+pattern with clusters in separate panels in the . The colors encode
+the distance of each point to the <i>medoid</i> of its cluster. The
+displays the same pattern with superposed clusters. Here the colors
+encode the membership to a certain cluster, and transparency is used
+to denote density of points in a region.
+</p>
+<p>
+The results can be easily understood with the density plots of each
+cluster and feature or with the histograms .
+</p>
+
+
+
+<pre class="src src-R">dfTransCluster <span style="color: #008b8b;">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span style="color: #228b22;">TRUE</span>)
+</pre>
+
+
+
+
+
+<pre class="src src-R">xyplot(dfTransCluster)
+</pre>
+
+
+
+
+
+
+<pre class="src src-R">xyplot(dfTransCluster, panelClust=<span style="color: #228b22;">FALSE</span>)
+</pre>
+
+
+<p>
+<img src="clusterScatterPlot.png" width="480" alt="clusterScatterPlot.png" />
+</p>
+
+
+
+<pre class="src src-R">histogram(dfTransCluster)
+</pre>
+
+
+
+<pre class="src src-R">densityplot(dfTransCluster)
+</pre>
+
+
+<p>
+<img src="clusterDensity.png" width="480" alt="clusterDensity.png" />
+</p>
+
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2012-04-19 15:00:45 CEST</p>
+<p class="author">Author: Oscar Perpiñán Lamigueiro</p>
+<p class="creator">Org version 7.8.02 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

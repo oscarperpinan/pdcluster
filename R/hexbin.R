@@ -2,7 +2,9 @@ setGeneric('hexbinplot')
 setMethod('hexbinplot',
           signature=c(x='PD', data='missing'),
           definition=function(x, 
-            plot.refl=TRUE, ...
+                              plot.refl=TRUE,
+                              yvar = 'energy',
+                              ...
             ){
             pens <- t(matrix(brewer.pal('PuBu', n=4), nrow=2))
             dt <- x@data
@@ -28,8 +30,9 @@ setMethod('hexbinplot',
               p <- do.call(hexbinplot, call)
 
             }
-            result <- p + layerRef(dt) + layerGrid
-            print(result)
+            p$panel <- pdPanel
+            for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
+            p
           }
           )
 
@@ -38,7 +41,8 @@ setMethod('hexbinplot',
           definition=function(x,
             clusters,
             panelClust=TRUE,
-            plot.refl=TRUE, ...
+            plot.refl=TRUE,
+            yvar = 'energy', ...
             ){
             pens <- t(matrix(brewer.pal('PuBu', n=4), nrow=2))
             dt <- x@data
@@ -78,7 +82,8 @@ setMethod('hexbinplot',
               p <- hexbinplot(as(x, 'PD'),
                               plot.refl=plot.refl, ...)
             }
-            result <- p + layerRef(dt) + layerGrid
-            print(result)
+            p$panel <- pdPanel
+                        for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
+            p
           }
           )
