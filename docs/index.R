@@ -1,6 +1,6 @@
 library(pdCluster)
 
-load('signalList.RData')
+load('data/signalList.RData')
 
 xyplot(signalList, y.same=NA, FUN=function(x){xyplot(ts(no0(x)))})
 
@@ -15,7 +15,7 @@ analysis(signal)
 analysisList <- lapply(signalList[1:10], analysis)
 pdData <- do.call(rbind, analysisList)
 
-load('pdSummary.RData')
+load('data/pdSummary.RData')
 
 idxOrderSummary=order(pdSummary$sumaCuadrados)
 idxOrderData=order(pdData$energy)
@@ -28,7 +28,7 @@ pdDataOrdered <- pdDataOrdered[idx,]
 
 pd <- df2PD(pdDataOrdered)
 
-load('dfHibr.RData')
+load('data/dfHibr.RData')
 
 dfHibr <- df2PD(dfHibr)
 
@@ -58,7 +58,7 @@ xyplot(dfTrans)
 
 hexbinplot(dfTrans)
 
-dfTransCluster <- claraPD(dfTrans, noise.level=0.7, noise.rm=TRUE)
+dfTransCluster <- claraPD(dfTrans, noise.level=0.4, noise.rm=TRUE)
 
 xyplot(dfTransCluster)
 

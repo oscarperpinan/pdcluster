@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-02-14 mié 21:37 -->
+<!-- 2018-02-16 vie 18:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>pdCluster: Partial Discharges Clustering</title>
@@ -256,11 +256,11 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8b04b54">1. The Prony&rsquo;s method</a></li>
-<li><a href="#orgb0bdbae">2. Feature generation</a></li>
-<li><a href="#orgf196540">3. Transformations</a></li>
-<li><a href="#orgf69555a">4. Graphical tools</a></li>
-<li><a href="#orgd35fc1a">5. Clustering</a></li>
+<li><a href="#org3a3ca27">1. The Prony&rsquo;s method</a></li>
+<li><a href="#orgab89b7c">2. Feature generation</a></li>
+<li><a href="#orge7b33bd">3. Transformations</a></li>
+<li><a href="#org194cf82">4. Graphical tools</a></li>
+<li><a href="#orgc4417d5">5. Clustering</a></li>
 </ul>
 </div>
 </div>
@@ -268,12 +268,22 @@ for the JavaScript code in this tag.
 <a href="http://en.wikipedia.org/wiki/Partial_discharge">Partial discharge</a> measurements analysis may determine the existence of
 defects. This package provides several tools for feature generation,
 exploratory graphical analysis, clustering and variable importance
-quantification for partial discharge signals.
+quantification for partial discharge signals. 
 </p>
 
 <p>
-The development pages of <code>pdCluster</code> are <a href="https://github.com/oscarperpinan/pdcluster">here</a>. 
-It can be installed with: 
+More details available in this <a href="https://oscarperpinan.github.io/papers/Perpinan.Sanchez-Uran.ea2013.pdf">paper</a>:
+</p>
+
+<p class="verse">
+O. Perpiñán, M.A. Sánchez-Urán, F. Álvarez, J. Ortego, F. Garnacho,<br />
+Signal analysis and feature generation for pattern identification of partial discharges in high-voltage equipment,<br />
+Electric Power Systems Research, 2013, 95:C (56-65), 10.1016/j.epsr.2012.08.016<br />
+</p>
+
+<p>
+The development repository of <code>pdCluster</code> is <a href="https://github.com/oscarperpinan/pdcluster">here</a>. It can be installed
+with:
 </p>
 
 <div class="org-src-container">
@@ -291,8 +301,8 @@ datasets.
 </pre>
 </div>
 
-<div id="outline-container-org8b04b54" class="outline-2">
-<h2 id="org8b04b54"><span class="section-number-2">1</span> The Prony&rsquo;s method</h2>
+<div id="outline-container-org3a3ca27" class="outline-2">
+<h2 id="org3a3ca27"><span class="section-number-2">1</span> The Prony&rsquo;s method</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A clean partial discharge signal can be regarded as a finite combination of
@@ -303,11 +313,11 @@ phase and damping components of the signal.
 
 <p>
 We have a collection of signals in a <code>list</code> named <code>signalList</code>
-(<a href="signalList.RData">download</a>). 
+(<a href="data/signalList.RData">download</a>). 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R">load(<span class="org-string">'signalList.RData'</span>)
+<pre class="src src-R">load(<span class="org-string">'data/signalList.RData'</span>)
 </pre>
 </div>
 
@@ -323,7 +333,7 @@ end. The <code>no0</code> function can remove these parts.
 
 
 <div class="figure">
-<p><img src="prony2.png" alt="prony2.png" />
+<p><img src="figs/prony2.png" alt="prony2.png" />
 </p>
 </div>
 
@@ -351,14 +361,14 @@ the function <code>compProny</code> allows the comparison of different numbers:
 
 
 <div class="figure">
-<p><img src="prony.png" alt="prony.png" />
+<p><img src="figs/prony.png" alt="prony.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb0bdbae" class="outline-2">
-<h2 id="orgb0bdbae"><span class="section-number-2">2</span> Feature generation</h2>
+<div id="outline-container-orgab89b7c" class="outline-2">
+<h2 id="orgab89b7c"><span class="section-number-2">2</span> Feature generation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <code>pdCluster</code> includes several functions for feature
@@ -383,11 +393,11 @@ pdData <span class="org-constant">&lt;-</span> do.call(rbind, analysisList)
 
 <p>
 Now we need the angle and reflection information, available from
-another different dataset (named <code>pdSummary</code>, <a href="pdSummary.RData">download</a>). 
+another different dataset (named <code>pdSummary</code>, <a href="data/pdSummary.RData">download</a>). 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R">load(<span class="org-string">'pdSummary.RData'</span>)
+<pre class="src src-R">load(<span class="org-string">'data/pdSummary.RData'</span>)
 </pre>
 </div>
 
@@ -429,11 +439,11 @@ We can now construct a <code>PD</code> object. (The
 </div>
 
 <p>
-The results of <code>analysis</code> to the whole dataset are available <a href="dfHibr.RData">here</a>.
+The results of <code>analysis</code> to the whole dataset are available <a href="data/dfHibr.RData">here</a>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R">load(<span class="org-string">'dfHibr.RData'</span>)
+<pre class="src src-R">load(<span class="org-string">'data/dfHibr.RData'</span>)
 
 dfHibr <span class="org-constant">&lt;-</span> df2PD(dfHibr)
 </pre>
@@ -441,8 +451,8 @@ dfHibr <span class="org-constant">&lt;-</span> df2PD(dfHibr)
 </div>
 </div>
 
-<div id="outline-container-orgf196540" class="outline-2">
-<h2 id="orgf196540"><span class="section-number-2">3</span> Transformations</h2>
+<div id="outline-container-orge7b33bd" class="outline-2">
+<h2 id="orge7b33bd"><span class="section-number-2">3</span> Transformations</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Prior to the clustering algorithm, the feature matrix has to be
@@ -489,14 +499,14 @@ comp <span class="org-constant">&lt;-</span> data.frame(After=nZCafter, Before=n
 
 
 <div class="figure">
-<p><img src="BoxCox.png" alt="BoxCox.png" />
+<p><img src="figs/BoxCox.png" alt="BoxCox.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf69555a" class="outline-2">
-<h2 id="orgf69555a"><span class="section-number-2">4</span> Graphical tools</h2>
+<div id="outline-container-org194cf82" class="outline-2">
+<h2 id="org194cf82"><span class="section-number-2">4</span> Graphical tools</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The <code>pdCluster</code> packages includes a set of graphical exploratory
@@ -512,7 +522,7 @@ with partial transparency or hexagonal binning.
 
 
 <div class="figure">
-<p><img src="splomPD.png" alt="splomPD.png" />
+<p><img src="figs/splomPD.png" alt="splomPD.png" />
 </p>
 </div>
 
@@ -538,19 +548,19 @@ with partial transparency or hexagonal binning.
 
 
 <div class="figure">
-<p><img src="hexbinPD.png" alt="hexbinPD.png" />
+<p><img src="figs/hexbinPD.png" alt="hexbinPD.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd35fc1a" class="outline-2">
-<h2 id="orgd35fc1a"><span class="section-number-2">5</span> Clustering</h2>
+<div id="outline-container-orgc4417d5" class="outline-2">
+<h2 id="orgc4417d5"><span class="section-number-2">5</span> Clustering</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The filtered and transformed object can now be used with the
 clustering algorithm. The results are displayed with a phase resolved
-pattern with clusters in separate panels in the . The colors encode
+pattern with clusters in separate panels. The colors encode
 the distance of each point to the <i>medoid</i> of its cluster. The
 displays the same pattern with superposed clusters. Here the colors
 encode the membership to a certain cluster, and transparency is used
@@ -563,7 +573,7 @@ cluster and feature or with the histograms .
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R">dfTransCluster <span class="org-constant">&lt;-</span> claraPD(dfTrans, noise.level=0.7, noise.rm=<span class="org-type">TRUE</span>)
+<pre class="src src-R">dfTransCluster <span class="org-constant">&lt;-</span> claraPD(dfTrans, noise.level=0.4, noise.rm=<span class="org-type">TRUE</span>)
 </pre>
 </div>
 
@@ -572,7 +582,6 @@ cluster and feature or with the histograms .
 </pre>
 </div>
 
-
 <div class="org-src-container">
 <pre class="src src-R">xyplot(dfTransCluster, panelClust=<span class="org-type">FALSE</span>)
 </pre>
@@ -580,7 +589,7 @@ cluster and feature or with the histograms .
 
 
 <div class="figure">
-<p><img src="clusterScatterPlot.png" alt="clusterScatterPlot.png" />
+<p><img src="figs/clusterScatterPlot.png" alt="clusterScatterPlot.png" />
 </p>
 </div>
 
@@ -596,7 +605,7 @@ cluster and feature or with the histograms .
 
 
 <div class="figure">
-<p><img src="clusterDensity.png" alt="clusterDensity.png" />
+<p><img src="figs/clusterDensity.png" alt="clusterDensity.png" />
 </p>
 </div>
 </div>
@@ -604,7 +613,7 @@ cluster and feature or with the histograms .
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Oscar Perpiñán Lamigueiro</p>
-<p class="date">Created: 2018-02-14 mié 21:37</p>
+<p class="date">Created: 2018-02-16 vie 18:40</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
