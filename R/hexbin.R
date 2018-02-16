@@ -30,7 +30,7 @@ setMethod('hexbinplot',
               p <- do.call(hexbinplot, call)
 
             }
-            p$panel <- pdPanel
+            p$panel <- pdHexPanel
             for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
             p
           }
@@ -82,8 +82,8 @@ setMethod('hexbinplot',
               p <- hexbinplot(as(x, 'PD'),
                               plot.refl=plot.refl, ...)
             }
-            p$panel <- pdPanel
-                        for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
+            p$panel <- pdHexPanel
+            for(i in seq_along(p$panel.args)) p$panel.args[[i]]$yvar <- dt[[yvar]]
             p
           }
           )
