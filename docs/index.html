@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-02-16 vie 18:40 -->
+<!-- 2018-02-18 dom 11:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>pdCluster: Partial Discharges Clustering</title>
@@ -256,11 +256,11 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3a3ca27">1. The Prony&rsquo;s method</a></li>
-<li><a href="#orgab89b7c">2. Feature generation</a></li>
-<li><a href="#orge7b33bd">3. Transformations</a></li>
-<li><a href="#org194cf82">4. Graphical tools</a></li>
-<li><a href="#orgc4417d5">5. Clustering</a></li>
+<li><a href="#orgc7e723d">1. The Prony&rsquo;s method</a></li>
+<li><a href="#org4c81546">2. Feature generation</a></li>
+<li><a href="#org3bfab25">3. Transformations</a></li>
+<li><a href="#org1605f9c">4. Graphical tools</a></li>
+<li><a href="#org081356b">5. Clustering</a></li>
 </ul>
 </div>
 </div>
@@ -301,8 +301,8 @@ datasets.
 </pre>
 </div>
 
-<div id="outline-container-org3a3ca27" class="outline-2">
-<h2 id="org3a3ca27"><span class="section-number-2">1</span> The Prony&rsquo;s method</h2>
+<div id="outline-container-orgc7e723d" class="outline-2">
+<h2 id="orgc7e723d"><span class="section-number-2">1</span> The Prony&rsquo;s method</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 A clean partial discharge signal can be regarded as a finite combination of
@@ -367,8 +367,8 @@ the function <code>compProny</code> allows the comparison of different numbers:
 </div>
 </div>
 
-<div id="outline-container-orgab89b7c" class="outline-2">
-<h2 id="orgab89b7c"><span class="section-number-2">2</span> Feature generation</h2>
+<div id="outline-container-org4c81546" class="outline-2">
+<h2 id="org4c81546"><span class="section-number-2">2</span> Feature generation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <code>pdCluster</code> includes several functions for feature
@@ -451,8 +451,8 @@ dfHibr <span class="org-constant">&lt;-</span> df2PD(dfHibr)
 </div>
 </div>
 
-<div id="outline-container-orge7b33bd" class="outline-2">
-<h2 id="orge7b33bd"><span class="section-number-2">3</span> Transformations</h2>
+<div id="outline-container-org3bfab25" class="outline-2">
+<h2 id="org3bfab25"><span class="section-number-2">3</span> Transformations</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Prior to the clustering algorithm, the feature matrix has to be
@@ -505,8 +505,8 @@ comp <span class="org-constant">&lt;-</span> data.frame(After=nZCafter, Before=n
 </div>
 </div>
 
-<div id="outline-container-org194cf82" class="outline-2">
-<h2 id="org194cf82"><span class="section-number-2">4</span> Graphical tools</h2>
+<div id="outline-container-org1605f9c" class="outline-2">
+<h2 id="org1605f9c"><span class="section-number-2">4</span> Graphical tools</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The <code>pdCluster</code> packages includes a set of graphical exploratory
@@ -554,8 +554,8 @@ with partial transparency or hexagonal binning.
 </div>
 </div>
 
-<div id="outline-container-orgc4417d5" class="outline-2">
-<h2 id="orgc4417d5"><span class="section-number-2">5</span> Clustering</h2>
+<div id="outline-container-org081356b" class="outline-2">
+<h2 id="org081356b"><span class="section-number-2">5</span> Clustering</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The filtered and transformed object can now be used with the
@@ -573,7 +573,7 @@ cluster and feature or with the histograms .
 </p>
 
 <div class="org-src-container">
-<pre class="src src-R">dfTransCluster <span class="org-constant">&lt;-</span> claraPD(dfTrans, noise.level=0.4, noise.rm=<span class="org-type">TRUE</span>)
+<pre class="src src-R">dfTransCluster <span class="org-constant">&lt;-</span> claraPD(dfTrans, noise.rm = <span class="org-type">FALSE</span>)
 </pre>
 </div>
 
@@ -613,7 +613,7 @@ cluster and feature or with the histograms .
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Oscar Perpiñán Lamigueiro</p>
-<p class="date">Created: 2018-02-16 vie 18:40</p>
+<p class="date">Created: 2018-02-18 dom 11:11</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
