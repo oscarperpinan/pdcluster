@@ -210,7 +210,7 @@ The results can be easily understood with the density plots of each
 cluster and feature or with the histograms .
 
 #+begin_src R
-dfTransCluster <- claraPD(dfTrans, noise.level=0.4, noise.rm=TRUE)
+dfTransCluster <- claraPD(dfTrans, noise.rm = FALSE)
 #+end_src 
   
 #+begin_src R
@@ -232,7 +232,3 @@ densityplot(dfTransCluster)
 #+end_src
 
 [[file:figs/clusterDensity.png]]
-
-  
-
-

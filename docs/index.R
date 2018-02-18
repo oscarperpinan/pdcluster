@@ -58,7 +58,7 @@ xyplot(dfTrans)
 
 hexbinplot(dfTrans)
 
-dfTransCluster <- claraPD(dfTrans, noise.level=0.4, noise.rm=TRUE)
+dfTransCluster <- claraPD(dfTrans, noise.rm = FALSE)
 
 xyplot(dfTransCluster)
 
